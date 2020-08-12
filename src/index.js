@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
         // console.log(allComments)
         dogTitle.innerText = doggo.title
         dogImage.src = doggo.image
-        dogLikes.innerText = doggo.likes + ' Likes'
+        dogLikes.innerText = doggo.likes 
         dogComments.innerText = ""
 
         allComments.forEach(comment => {
