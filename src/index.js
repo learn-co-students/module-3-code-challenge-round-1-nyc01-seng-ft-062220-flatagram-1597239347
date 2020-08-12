@@ -1,6 +1,5 @@
 // write your code here
-// As a user, I can:
-
+// As a user, I can
 // 1) XXXXSee the image received from the server, including its title, likes and comments when the page loads
 // 2) XXX Click on the heart icon to increase image likes, and still see them when I reload the page
 // 3) XXXAdd a comment (no persistance needed)
@@ -24,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
             title.textContent = imageObj.title
             image.src = imageObj.image
             likes.textContent = imageObj.likes + ' Likes'
-            postContainer.id = imageObj.id
+            //postContainer.id = imageObj.id
             comments.innerHTML = ''
             //console.log(imageObj.comments[1])
             for (let i = 0; i < imageObj.comments.length; i++) {
@@ -65,7 +64,6 @@ document.addEventListener("DOMContentLoaded", function(e) {
                   
                 }else if (e.target.className === 'dislike'){
                     const dislikeButton = e.target
-                    //dislikeButton.innerText = "X" //button changes to a X when clicked on Downvote
                     const minusNumber = dislikeButton.parentElement//.children[0]//.innerText
                     const newLikeSpan = minusNumber.querySelector("span")
                     //console.log(newLikeSpan.textContent)
@@ -88,17 +86,6 @@ document.addEventListener("DOMContentLoaded", function(e) {
             })
         }
 
-
-
-
-
-
-
-
-
-
-
-
         const submitForm = () => {
             document.addEventListener('submit', function(e) {
                 e.preventDefault()
@@ -107,7 +94,6 @@ document.addEventListener("DOMContentLoaded", function(e) {
                 const newCommentLi = document.createElement('li')
                 newCommentLi.append(commentForm)
                 comments.append(newCommentLi)
-
             })
         }
 
