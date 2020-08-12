@@ -105,15 +105,14 @@ document.addEventListener("DOMContentLoaded", () => {
     //click event listener for the like button
     const clickHandler = () => {
         document.addEventListener("click", e => {
-            
+            const numbers = document.querySelector("span").innerText
             const likeCount = e.target.parentElement.children[0].innerText
             if (e.target.matches(".like-button")){
-                let set = document.querySelector(".like-button")
                 likeUpVote = parseInt(likeCount) + 1
                 patchImage(imageCard.id, likeUpVote)           
             }else if (e.target.matches(".dislike-button")){
                 //like it only if full heart 
-                likeUpVote = parseInt(likeCount) - 1
+                likeUpVote = numbers - 1
                 patchImage(imageCard.id, likeUpVote) 
             }else if (e.target.matches(".delete-button")){
                 const commentId = e.target.parentElement.dataset.image
