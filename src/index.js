@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
     function renderImage(image, imageBlock) {
         
         imageBlock.dataset.id = image.id
-        console.log(imageBlock)
+        
 
         imageBlock.innerHTML = `
         <h2 class="title">${image.title}</h2>
@@ -52,6 +52,42 @@ document.addEventListener("DOMContentLoaded", function(e) {
     }
 
 
+    function clickHandler() {
+        document.addEventListener("click", function(event) {
+            if (event.target.matches(".like-button")) {
+                const likeButton = event.target
+                const imageCard = likeButton.closest("div").parentElement
+                
+                patchLikes(imageCard)
+            }
+        })
+    }
+
+
+    function patchLikes(imageCard) {
+        let likeSpan = imageCard.querySelector("span").textContent
+
+        let arr = likeSpan.split(" ")
+        let likes = parseInt(arr[0])
+        likes += 1
+        arr[0] = likes
+        let newLikes = arr.join(" ")
+
+        const options = {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json",
+                "accept": "application/json"
+            },
+            body: JSON.stringify({
+               likes: likes 
+            })
+        }
+
+        fetch(GET_URL + IMAGE, options)
+        
+
+    }
 
 
 
@@ -69,10 +105,6 @@ document.addEventListener("DOMContentLoaded", function(e) {
 
 
 
-
-
-
-
-
+    clickHandler()
     getImage()
 })
