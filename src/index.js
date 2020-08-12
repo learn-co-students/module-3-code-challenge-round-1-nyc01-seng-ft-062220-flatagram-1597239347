@@ -3,8 +3,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
+    
     const imageUrl = "http://localhost:3000/images/1"
+    const imageComments = document.querySelector(".comments")
+    const imageLikes = document.querySelector(".likes")
     
     function getImage(){
         fetch(imageUrl)
@@ -18,12 +20,37 @@ document.addEventListener("DOMContentLoaded", () => {
         imageTitle.innerHTML = image.title
         const pic = document.querySelector(".image")
         pic.src = image.image
-        const imageLikes = document.querySelector(".comments")
+        imageLikes.innerHTML = image.likes + " Likes"
+        imageComments.innerHTML = ""
 
-        
-        
-        // console.log(pic)
+        let comments = image.comments
+
+        comments.forEach(comment =>{
+            let content = comment.content
+            let li = document.createElement("li")
+            li.innerHTML = content
+            imageComments.append(li)
+        })
     }
+
+    const button = document.querySelector(".like-button")
+    button.addEventListener("click",function(e){
+        let newLikes = imageLikes.innerHTML = parseInt(imageLikes.innerHTML) + 1 + " Likes"
+
+        fetch(imageUrl,{
+            method: "PATCH",
+            headers:{
+                "Content-Type": "application/json",
+                "Accepts": "application/json"},
+            body: JSON.stringify({likes: newLikes})
+        })
+    
+
+
+
+
+
+    })
 
 
 
