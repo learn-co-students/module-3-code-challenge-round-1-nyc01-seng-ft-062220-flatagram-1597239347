@@ -19,8 +19,6 @@ const baseUrl = `http://localhost:3000`
 
 document.addEventListener(`DOMContentLoaded`, e => {
     const commentUl = document.querySelector(`.comments`)
-    // const downVote = document.createElement(`button`)
-    // const likesSection = imageContainer.querySelector(`.likes-section`)
     const renderImageData = imageData => {
         const imageContainer = document.querySelector(`.image-container`)
         const title = imageContainer.querySelector(`.title`)
@@ -48,14 +46,15 @@ document.addEventListener(`DOMContentLoaded`, e => {
     const renderComment = comment => {
         const commentUl = document.querySelector(`.comments`)
         const commentLi = document.createElement(`li`)
-        
+        // const deleteButton = document.createElement(`button`)
+        // deleteButton.innerText = `delete`
+        // deleteButton.id = `delete-button`
+        // commentLi.append(deleteButton)
+        //  console.log(deleteButton)
+        // button wasn't showing on list
         commentLi.innerText = comment
         commentUl.append(commentLi)
     }
-
-    // downVote.id = `down-vote`
-    // downVote.innerText = `down vote`
-    // likesSection.append(downVote)
     
     commentUl.innerHTML = ``
 
