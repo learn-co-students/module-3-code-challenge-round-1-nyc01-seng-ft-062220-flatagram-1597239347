@@ -49,6 +49,21 @@ document.addEventListener("DOMContentLoaded", function() {
         })
     }
 
+    //#4
+    const form = document.querySelector('form')
+    const commentsList = document.querySelector('.comments')
+    function addComment() {
+        document.addEventListener("click", e => {             //it doesn't work with "submit"!!!
+            e.preventDefault()
+            if (e.target.className === "comment-button") {
+                const newComment = document.createElement('li')
+                newComment.innerText = form.children[0].value
+                commentsList.append(newComment)
+                form.children[0].value = '' //afted adding a comment the comment field should be reset 
+            }
+        })
+    }
+
 
 
 
@@ -57,4 +72,5 @@ document.addEventListener("DOMContentLoaded", function() {
 
     getImageData()
     clickHandler()
+    addComment()
 })
