@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
             title.textContent = imageObj.title
             image.src = imageObj.image
             likes.textContent = imageObj.likes + ' Likes'
+            = imageObj.id
             comments.innerHTML = ''
             //console.log(imageObj.comments[1])
             for (let i = 0; i < imageObj.comments.length; i++) {
@@ -34,29 +35,65 @@ document.addEventListener("DOMContentLoaded", function(e) {
         }
 
         //Click on the heart icon to increase image likes, and still see them when I reload the page
+
+        // const clickHandler = () => {
+        //     document.addEventListener('click', function(e) {
+        //         if(e.target.className === 'like-button') {
+        //             const likeButton = e.target
+        //             const likeNumber = likeButton.previousElementSibling
+        //             //console.log(likeNumber)
+        //             const likeSpan = likeNumber.querySelector("span")
+        //             //console.log(likeSpan)
+        //             const newLikes = parseInt(likeSpan.textContent) + 1 + "likes"
+        //             console.log(newLikes)
+        
+                
+                
+        //         fetch(postURL, {
+        //             method: "PATCH",
+        //             headers: {
+        //                 "Content-type": "application/json",
+        //                 "Accepts": "application/json"
+        //             },
+        //             body: JSON.stringify({likes: newLikes })
+        //         })
+        //     }  
+        //     })
+        // }
+
         const clickHandler = () => {
             document.addEventListener('click', function(e) {
-                if(e.target.className === 'like-button') {
-                    const likeButton = e.target
-                    const likeNumber = likeButton.previousElementSibling
-                    //console.log(likeNumber)
-        
-                    let likedNum = likeNumber.innerText
-                    likeNumber.innerText = parseInt(likedNum.innerText) + 1 + " Likes"
-                
-                fetch(url, {
-                    method: "PATCH",
-                    headers: {
-                        "Content-type": "application/js",
-                        "Accepts": "application/json"
-                    },
-                    body: JSON.stringify({likes: likedNum})
-                })
-            }  
+                if(e.target.className === 'like-button'){
+                    console.log(e.target)
+                  
+                }
             })
         }
 
 
+
+
+
+
+
+
+
+
+
+
+        const submitForm = () => {
+            document.addEventListener('submit', function(e) {
+                e.preventDefault()
+                const commentForm = document.querySelector(".comment-input").value 
+                const comments = document.querySelector(".comments")
+                const newCommentLi = document.createElement('li')
+                newCommentLi.append(commentForm)
+                comments.append(newCommentLi)
+
+            })
+        }
+
+    submitForm()
     clickHandler()
     fetchImage()
 })
