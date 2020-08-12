@@ -65,13 +65,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const formHandler = () => {
-        document.addEventListener('submit', e => {
-            if(e.target.matches('.comment-button')){
-                console.log(e)
+        commentForm.addEventListener('submit', e => {
                 e.preventDefault()
                 let input = commentForm.querySelector('.comment-input')
                 
-                    fetch(commentsURL, {
+                    fetch(commentURL, {
                         method: 'POST', 
                         headers: {
                             "content-type": "application/json", 
@@ -79,14 +77,14 @@ document.addEventListener("DOMContentLoaded", () => {
                         },
                         body: JSON.stringify({
                             imageId: 1,
-                            content:`${input}`
+                            content: input.value
                         })
                     })
                     .then(resp => resp.json())
                     .then(data => {
                         getImage(data)
+                        input.value = ""
                     })
-            }
         })
     }
     

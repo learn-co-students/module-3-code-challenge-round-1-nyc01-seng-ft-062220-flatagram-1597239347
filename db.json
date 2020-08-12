@@ -22,6 +22,36 @@
       "id": 3,
       "imageId": 1,
       "content": "Woof!"
+    },
+    {
+      "imageId": 1,
+      "content": "[object HTMLInputElement]",
+      "id": 4
+    },
+    {
+      "imageId": 1,
+      "content": "[object HTMLInputElement]",
+      "id": 5
+    },
+    {
+      "imageId": 1,
+      "content": "hey",
+      "id": 6
+    },
+    {
+      "imageId": 1,
+      "content": "no way",
+      "id": 7
+    },
+    {
+      "imageId": 1,
+      "content": "got it",
+      "id": 8
+    },
+    {
+      "imageId": 1,
+      "content": "yeah",
+      "id": 9
     }
   ]
 }
