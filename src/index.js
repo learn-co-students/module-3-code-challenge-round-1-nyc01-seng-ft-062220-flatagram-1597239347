@@ -44,21 +44,54 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch(BASE_URL, configObj)
     }
 
+    const renderComment = (commentForm) => {
+        const newLi = document.createElement("li")
+        newLi.innerText = commentForm.querySelector("input.comment-input").value
+        document.querySelector("ul.comments").append(newLi)
+
+        commentObj = {
+            "id": document.querySelectorAll("ul.comments > li").length,
+            "imageId": document.querySelector("div.image-card").dataset.postId,
+            "content": commentForm.querySelector("input.comment-input").value
+        }
+
+        configObj = {
+            method: "POST",
+
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(commentObj)
+        }
+
+    }
+
     const clickHandler = () => {
         document.addEventListener("click", (e) => {
             button = e.target
             if(button.matches("button.like-button")) {
                 renderLike(button.parentNode.querySelector("span.likes"))
+            } else if (button.matches("button.comment-button")) {
+                e.preventDefault()
+                renderComment(button.parentNode)
+                button.parentNode.querySelector("input.comment-input").value = ""
             }
         })
     }
 
-    const submitHandler = () => {
-        
-    }
+    // const submitHandler = () => {
+    //     document.addEventListener("submit", (e) => {
+    //         form = e.target
+    //         if(form.matches("button.comment-button")) {
+    //             e.preventDefault
+    //             console.log("form")
+    //         }
+    //     })
+    // }
 
     // const newPost = returnPost(getPost())
     getPost()
     clickHandler()
-    submitHandler()
+    // submitHandler()
 })
