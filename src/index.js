@@ -15,6 +15,7 @@
 document.addEventListener("DOMContentLoaded", e=>{
 
     let page_link = "http://localhost:3000/images/1"
+    let ul = document.querySelector(".comments")
 
     fetch(page_link)
     .then(resp =>resp.json())
@@ -31,7 +32,6 @@ document.addEventListener("DOMContentLoaded", e=>{
         let likes = document.querySelector(".likes")
         likes.innerText = `${page.likes} likes`
 
-        let ul = document.querySelector(".comments")
         ul.innerHTML = ""
 
         function renderComments(){
@@ -64,6 +64,19 @@ document.addEventListener("DOMContentLoaded", e=>{
         .then(resp =>{
             span.innerText = `${newLikes} likes`
         })
+
+    })//button EventListener
+
+    let form = document.querySelector(".comment-form") 
+    form.addEventListener("submit", e=>{
+
+        e.preventDefault()
+
+        let newComment = e.target.comment.value
+        let li = document.createElement('li')
+        li.innerText = newComment
+        ul.appendChild(li)
+        form.reset()
 
     })
 
