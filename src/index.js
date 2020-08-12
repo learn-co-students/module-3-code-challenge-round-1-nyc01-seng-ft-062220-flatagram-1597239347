@@ -33,9 +33,29 @@ document.addEventListener("DOMContentLoaded", function(e) {
             }
         }
 
+        //Click on the heart icon to increase image likes, and still see them when I reload the page
         const clickHandler = () => {
-
+            document.addEventListener('click', function(e) {
+                if(e.target.className === 'like-button') {
+                    const likeButton = e.target
+                    const likeNumber = likeButton.previousElementSibling
+                    //console.log(likeNumber)
+        
+                    let likedNum = likeNumber.innerText
+                    likeNumber.innerText = parseInt(likedNum.innerText) + 1 + " Likes"
+                
+                fetch(url, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-type": "application/js",
+                        "Accepts": "application/json"
+                    },
+                    body: JSON.stringify({likes: likedNum})
+                })
+            }  
+            })
         }
+
 
     clickHandler()
     fetchImage()
