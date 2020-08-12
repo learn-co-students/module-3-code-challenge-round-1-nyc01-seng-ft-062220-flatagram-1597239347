@@ -10,7 +10,18 @@ const getImage = (image) => {
 
 
 const parseImageToHtml = (image) => {
-    debugger
+    // const ul = document.querySelector(".comments")
+
+    const comment1 = image.comments[0].content
+    const comment2= image.comments[1].content
+    const comment3 = image.comments[2].content
+
+    const allLi = document.querySelectorAll("li")
+    allLi[0].textContent = comment1
+    allLi[1].textContent = comment2
+    allLi[2].textContent = comment3
+
+    // debugger
 }
 
 getImage()
@@ -25,8 +36,8 @@ getImage()
 /*
 See the image received from the server, including its title, likes and comments when the page loads
     -dom content loaded done
-    -getImage fetch request - get single photo and all of its comments
-    -HTML to show the title, likes, comments
+    -getImage fetch request - get single photo and all of its comments - done
+    -HTML to show the title, likes, comments - done
 Click on the heart icon to increase image likes, and still see them when I reload the page
     -event listener on heart, incrementing by 1 per click   
 Add a comment (no persistance needed)
