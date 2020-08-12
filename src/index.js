@@ -12,6 +12,8 @@ const getImage = (image) => {
 const parseImageToHtml = (image) => {
     // const ul = document.querySelector(".comments")
 
+
+    // update comments 
     const comment1 = image.comments[0].content
     const comment2= image.comments[1].content
     const comment3 = image.comments[2].content
@@ -21,7 +23,17 @@ const parseImageToHtml = (image) => {
     allLi[1].textContent = comment2
     allLi[2].textContent = comment3
 
-    // debugger
+    // update image
+    const showImage = image.image
+    const findImage = document.querySelector(".image")
+    findImage.src = showImage
+
+    // update title
+    const newTitle = image.title
+    const title = document.querySelector(".title")
+    title.innerText = newTitle
+
+    debugger
 }
 
 getImage()
