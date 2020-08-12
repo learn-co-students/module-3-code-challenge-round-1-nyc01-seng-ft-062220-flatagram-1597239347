@@ -3,16 +3,11 @@
     {
       "id": 1,
       "title": "Woofing those bugs away",
-      "likes": 153,
+      "likes": 136,
       "image": "./assets/coder-dog.png"
     }
   ],
   "comments": [
-    {
-      "id": 1,
-      "imageId": 1,
-      "content": "What a cute dog!"
-    },
     {
       "id": 2,
       "imageId": 1,
@@ -22,6 +17,21 @@
       "id": 3,
       "imageId": 1,
       "content": "Woof!"
+    },
+    {
+      "imageId": 1,
+      "content": "Sooooooo cuuuuuteee <3",
+      "id": 7
+    },
+    {
+      "imageId": 1,
+      "content": "OMG LOL",
+      "id": 8
+    },
+    {
+      "imageId": 1,
+      "content": "Who knew fluffy was a mac user? ",
+      "id": 9
     }
   ]
 }

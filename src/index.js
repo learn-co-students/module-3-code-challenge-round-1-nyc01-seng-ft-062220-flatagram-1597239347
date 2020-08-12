@@ -3,9 +3,13 @@
 //DONE - render image
 //DONE - render title
 //DONE - render likes
-// render comments
-//DONE - build heart like like function
-//add comment.
+//DONE - render comments
+//DONE - build heart like function
+//DONE - add comment
+//DONE - persist comments
+//DONE - Add dislike button /persist dislike button
+
+
 const urlImages = "http://localhost:3000/images/"
 const urlComments = "http://localhost:3000/comments/"
 
@@ -18,7 +22,7 @@ document.addEventListener("DOMContentLoaded", e=> {
   }
 
   const renderImage = (object) => {
-    const containerDiv = document.getElementById("image-container") //fix selector if time
+    const containerDiv = document.getElementById("image-container") //fix selector if time.
     const objectDiv = document.createElement("div")
 
     while(containerDiv.firstChild){
