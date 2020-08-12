@@ -27,6 +27,16 @@ document.addEventListener("DOMContentLoaded",function(){
 
     card.addEventListener("submit",function(e){
 
+        e.preventDefault()
+        const comment = e.target
+        const li = document.createElement("LI")
+        let UL = document.querySelector("ul.comments")
+        li.textContent = comment.comment.value
+        commentUL.appendChild(li)
+        console.log(comment)
+        // e.target.reset()
+
+
     // the end of the submit addeventlistener to the card
     })
 
