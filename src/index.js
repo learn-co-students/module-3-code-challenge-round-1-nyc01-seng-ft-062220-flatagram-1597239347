@@ -1,4 +1,4 @@
-// write your code here
+// Fun Challenge, I have one error in the DB, didn't parseINT the imageId for one comment :)
 
 document.addEventListener("DOMContentLoaded", function(e) {
 
@@ -7,7 +7,8 @@ document.addEventListener("DOMContentLoaded", function(e) {
     const COMMENT_URL = "http://localhost:3000/comments/"
     const IMAGE = 1
 
-    
+
+    //Clear data and get Image from db.json
     function getImage() {
         const imageBlock = document.querySelector(".image-card")
         imageBlock.innerHTML = ""
@@ -16,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
         .then(image => renderImage(image, imageBlock))
     }
 
-
+    //Render Image on the page
     function renderImage(image, imageBlock) {
         
         imageBlock.dataset.id = image.id
@@ -55,17 +56,18 @@ document.addEventListener("DOMContentLoaded", function(e) {
     }
 
 
+    //Click Handler
     function clickHandler() {
         document.addEventListener("click", function(event) {
 
-            //This options adds likes
+            //This options adds likes --see line 108
             if (event.target.matches(".like-button")) {
                 const likeButton = event.target
                 const imageCard = likeButton.closest("div").parentElement
                 
                 patchLikes(imageCard)
 
-            //This options add comments    
+            //This options add comments --see line 163   
             } else if (event.target.matches(".comment-button")) {
                 event.preventDefault()
                 let commentButton = event.target
@@ -74,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
 
                 addComment(form)
 
-            //This option renders or removes delete button    
+            //This option renders or removes delete button --see line 188   
             } else if (event.target.matches("li")) {
                 const comment = event.target
                 
@@ -85,13 +87,14 @@ document.addEventListener("DOMContentLoaded", function(e) {
                     renderDelete(comment)
                 }
              
-            //This option deletes comments    
+            //This option deletes comments --see line 198   
             } else if (event.target.innerText === "Delete?") {
                 const del = event.target
                 const comment = del.parentElement
                
                 deleteComment(comment)
 
+            //This options allows you to downvote --see line 136    
             } else if (event.target.matches(".downvote-button")) {
                 const downVote = event.target
                 const imageCard = downVote.closest("div").parentElement
@@ -102,6 +105,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
     }
 
 
+    //Function to increase likes
     function patchLikes(imageCard) {
         let likeSpan = imageCard.querySelector("span").textContent
 
@@ -128,6 +132,8 @@ document.addEventListener("DOMContentLoaded", function(e) {
         })  
     }
 
+
+    //Function to downvote
     function patchDownVote(imageCard) {
         let likeSpan = imageCard.querySelector("span").textContent
 
@@ -154,6 +160,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
     }
 
 
+    //Function to add comment
     function addComment(form) {
         const newComment = form.querySelector("input").value
         const postId = form.parentElement.dataset.id
@@ -179,6 +186,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
     }
 
 
+    //function to render delete button
     function renderDelete(comment) {
         const del = document.createElement("button")
         del.innerText = "Delete?"
@@ -186,6 +194,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
     }
 
 
+    //function to delete comments
     function deleteComment(comment) {
         const commentId = comment.dataset.id
         
@@ -209,7 +218,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
 
 
 
-
+    //Invoked functions
     clickHandler()
     getImage()
 })

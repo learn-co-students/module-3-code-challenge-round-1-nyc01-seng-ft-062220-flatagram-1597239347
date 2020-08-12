@@ -37,6 +37,11 @@
       "imageId": 1,
       "content": "boop da nose",
       "id": 6
+    },
+    {
+      "imageId": 1,
+      "content": "Fetch request!",
+      "id": 7
     }
   ]
 }
