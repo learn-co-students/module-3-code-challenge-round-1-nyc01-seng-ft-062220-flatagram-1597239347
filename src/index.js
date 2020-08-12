@@ -31,13 +31,13 @@ document.addEventListener(`DOMContentLoaded`, e => {
         title.innerText = imageData.title
         image.src = imageData.image
         likes.innerText = `${imageData.likes} likes`
-        if (imageData.comments) imageData.comments.forEach(comment => renderComment(comment))
+        if (imageData.comments) imageData.comments.forEach(comment => renderComment(comment.content))
     }
     const renderComment = comment => {
         const commentUl = document.querySelector(`.comments`)
         const commentLi = document.createElement(`li`)
         
-        commentLi.innerText = comment.content
+        commentLi.innerText = comment
         commentUl.append(commentLi)
     }
     
@@ -72,7 +72,8 @@ document.addEventListener(`DOMContentLoaded`, e => {
         if (e.target.matches(`.comment-form`)) {
             const form = e.target
             const comment = form.comment.value
-            console.log(form.comment.value)
+            renderComment(comment)
+            form.reset()
         }
     })
 })
