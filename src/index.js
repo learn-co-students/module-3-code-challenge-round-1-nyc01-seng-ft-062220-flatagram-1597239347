@@ -6,9 +6,7 @@ const title = document.querySelector("body > div > div > h2")
 title.innerText = `${image.title}`
 const photo = document.querySelector("body > div > div > img")
 photo.src = `${image.image}`
-const likes = document.querySelector("body > div > div > div > span")
 likes.innerText = `${image.likes} likes`
-
 }
 
 function getImages(){
@@ -20,37 +18,45 @@ function getImages(){
   //submit listener---------------------------------------------------------------------------------
 
   document.addEventListener("submit", e => {
-  e.preventDefault()
-  let form = document.querySelector(".form")
-  form = e.target
+    e.preventDefault()
+    let form = document.querySelector(".form")
+    form = e.target
 
-  const commentsUl = document.querySelector("body > div > div > ul") //append comments in li
-  const postBtn = document.querySelector("body > div > div > form > button")
-  const commentLine = document.querySelector("body > div > div > form > input")
-  const commentParent = document.querySelector(".comments")
-  const newComment = document.createElement("li")
-  newComment.innerText =  `${commentLine.value}`
-  newComment.parentElement.append(newComment)
-  //create an li node with commentLine.value
+    const commentsUl = document.querySelector("body > div > div > ul") //append comments in li
+    const postBtn = document.querySelector("body > div > div > form > button")
+    const commentLine = document.querySelector("body > div > div > form > input")
+    const commentParent = document.querySelector(".comments")
+    const newComment = document.createElement("li")
+    newComment.innerText = `${commentLine.value}`
+    newComment.parentElement.append(newComment)
+    //create an li node with commentLine.value
   })
 
   //click listener---------------------------------------------------------------------------------
   document.addEventListener("click", e => {
-   const likeBtn = document.querySelector("body > div > div > div > button")
-   
-   function addLikes(button) {
-     
-   }
-  
-  if (e.target.matches(likeBtn))(
-      addLikes()
-  )
+    const likeBtn = document.querySelector("body > div > div > div > button")
+    const likes = document.querySelector("body > div > div > div > span")
 
-  //post to db
-
-  function likesInfo() {
-    `likes: ${likes.innerText}`
+    fetch(baseUrl)
+    .then(response => response.json())
+    .then(images => images.forEach(image => renderImage(image)))
   }
+    function addLikes(image) {
+        
+    }
+    
+    if (e.target.matches(likeBtn)){
+        //get the image and increase like by one and replace original value
+        const newLikes = (parseInt(`${image.likes}`)+1)
+        //traverse from e.target to # of likes
+        likes.innerText = `${newLikes} likes `
+        } 
+
+    //post to db
+
+    function likesInfo() {
+        `likes: ${likes.innerText}`
+    }
 
 //   function likesConfig() {
 //             method: "POST",
@@ -64,7 +70,7 @@ function getImages(){
 //   function postLikes(){
 //     fetch("http://localhost:3000/images/1", likesConfig)
 //     .then(response => response.json())
-//     .then(likes => )
+//     .then(likes => likes)
 //   }
 
 
