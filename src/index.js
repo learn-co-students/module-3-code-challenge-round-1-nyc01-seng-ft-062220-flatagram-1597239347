@@ -13,8 +13,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
     const likeButton = document.querySelector('.like-button')
     let dogComments = document.querySelector('.comments')
     const leaveDoggoLove = document.querySelector('.comment-form')
-    console.log(leaveDoggoLove)
-    
+   
 
     function getDoggo(){
         fetch(url)
@@ -57,12 +56,18 @@ document.addEventListener("DOMContentLoaded", ()=> {
     leaveDoggoLove.addEventListener('submit', function(e){
         e.preventDefault()
         const givingDoggoLove = document.querySelector('.comment-input')
-        // console.log(leaveDoggoLove)
-
+        console.log(leaveDoggoLove)
+        // const commentObj = {
+        //     imageId: 1,
+        //     content: 
+        // }
         let newLoveLi = document.createElement('li')
         newLoveLi.innerText = givingDoggoLove.value
         dogComments.append(newLoveLi)
         leaveDoggoLove.reset()
+
+        
+       
     })
 
 
