@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
         const ul = document.querySelector("ul")
         image.comments.forEach(comment => {
             const li = document.createElement("li")
+            const del = document.create
             li.dataset.id = comment.id
             li.textContent = `${comment.content}`
 
@@ -68,6 +69,17 @@ document.addEventListener("DOMContentLoaded", function(e) {
                 
 
                 addComment(form)
+
+            } else if (event.target.matches("li")) {
+                const comment = event.target
+                debugger
+                if (comment.hasChildNodes()) {
+                    console.log("hi!")
+                } else {
+                    renderDelete(comment)
+                }
+                
+                // deleteComment(comment)
             }
         })
     }
@@ -125,7 +137,25 @@ document.addEventListener("DOMContentLoaded", function(e) {
     }
 
 
+    function renderDelete(comment) {
+        const del = document.createElement("button")
+        del.innerText = "Delete?"
+        comment.append(del)
+    }
 
+
+    function deleteComment(comment) {
+        const commentId = comment.dataset.id
+
+        const options = {
+            method: "DELETE"
+        }
+
+        fetch(COMMENT_URL + commentId, options)
+        .then(res => {
+            getImage()
+        })
+    }
 
 
 
