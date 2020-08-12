@@ -27,14 +27,17 @@ function getImages(){
   const commentsUl = document.querySelector("body > div > div > ul") //append comments in li
   const postBtn = document.querySelector("body > div > div > form > button")
   const commentLine = document.querySelector("body > div > div > form > input")
-  
-  
+  const commentParent = document.querySelector(".comments")
+  const newComment = document.createElement("li")
+  newComment.innerText =  `${commentLine.value}`
+  newComment.parentElement.append(newComment)
+  //create an li node with commentLine.value
   })
 
   //click listener---------------------------------------------------------------------------------
   document.addEventListener("click", e => {
    const likeBtn = document.querySelector("body > div > div > div > button")
-
+   
    function addLikes(button) {
      
    }
@@ -45,21 +48,21 @@ function getImages(){
 
   //post to db
 
-  function imageForm() {
+  function likesInfo() {
     `likes: ${likes.innerText}`
   }
 
-//   function imageConfig() {
+//   function likesConfig() {
 //             method: "POST",
 //             headers: {
 //               "content-type": "application/json",
 //               "accept": "application/json"
 //             },
-//             body: JSON.stringify(imageForm)
+//             body: JSON.stringify(likesInfo)
         
 //   }
 //   function postLikes(){
-//     fetch("http://localhost:3000/images/1", imageConfig)
+//     fetch("http://localhost:3000/images/1", likesConfig)
 //     .then(response => response.json())
 //     .then(likes => )
 //   }
@@ -68,12 +71,10 @@ function getImages(){
   })
 
 
-
-
-
 //invoke function
 getImages()
-addComment()
+// addComment()
+likesConfig()
 postLikes()
 
 })
