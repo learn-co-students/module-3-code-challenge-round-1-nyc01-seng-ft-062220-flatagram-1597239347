@@ -71,10 +71,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // comment properties
         const commentSection = divCard.children[3];
-        parseComments(postObj.comments, commentSection);
-    }
+        if (postObj.comments) {
+            parseComments(postObj.comments, commentSection);
+        }
+    };
 
     const clickHandler = () => {
+
+        document.addEventListener("submit", e => {
+            e.preventDefault();
+            console.log("You pressed Submit")
+        });
+
+
         document.addEventListener("click", e => {
             if (e.target.textContent === FULL_HEART) {
                 const divLikes = e.target.closest(".likes-section"),
@@ -86,9 +95,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 };
                 updatePost(likesObj)
             }
-        })
+        });
 
-    }
+    };
    
     getPost();
     clickHandler();
