@@ -62,12 +62,29 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         const res = await fetch(CommentURL, settings)
     }
+    
+    const deleteComment = async (id) => {
+        const settings = {
+            method: 'DELETE',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+            }
+        }
+        const res = await fetch(`${CommentURL}/${id}`, settings)
+    }
 
     //helper method
     const createList = (comment) => {
         const li = document.createElement("li")
         li.dataset.image = comment.id
         li.innerText = comment.content
+        //delete btn
+        const createDelete = document.createElement("button")
+        createDelete.type = "submit"
+        createDelete.className = "delete-button"
+        createDelete.innerText = "x"
+        li.append(createDelete)
         comments.append(li)
     }
 
@@ -79,7 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         //add the list of comments
         allComments.forEach(comment => createList(comment)) 
-
         title.innerText = imageObj.title
         title.id = imageObj.id
         image.src = imageObj.image
@@ -90,11 +106,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const clickHandler = () => {
         document.addEventListener("click", e => {
             
-            console.log(imageCard.id)
             const likeCount = e.target.parentElement.children[0].innerText
             if (e.target.matches(".like-button")){
+                let set = document.querySelector(".like-button")
                 likeUpVote = parseInt(likeCount) + 1
+                patchImage(imageCard.id, likeUpVote)           
+            }else if (e.target.matches(".dislike-button")){
+                //like it only if full heart 
+                likeUpVote = parseInt(likeCount) - 1
                 patchImage(imageCard.id, likeUpVote) 
+            }else if (e.target.matches(".delete-button")){
+                const commentId = e.target.parentElement.dataset.image
+                deleteComment(commentId)
             }
         })
 
@@ -104,11 +127,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const formHandler = () => {
         document.addEventListener("submit", e => { 
             e.preventDefault()
-            const commentText = document.querySelector(".comment-input").value
-            addComment(parseInt(imageCard.id), commentText)
-        })
+                const commentText = document.querySelector(".comment-input").value
+                addComment(parseInt(imageCard.id), commentText)
+            e.target.reset()
 
+        })
     }
+
 
 fetchComments()
 fetchImage()
