@@ -9,11 +9,6 @@
   ],
   "comments": [
     {
-      "id": 2,
-      "imageId": 1,
-      "content": "He's got a nose for bugs!"
-    },
-    {
       "id": 3,
       "imageId": 1,
       "content": "Woof!"
@@ -27,6 +22,11 @@
       "imageId": 1,
       "content": "asdfasdf",
       "id": 5
+    },
+    {
+      "imageId": 1,
+      "content": "testy mc testy test",
+      "id": 6
     }
   ]
 }

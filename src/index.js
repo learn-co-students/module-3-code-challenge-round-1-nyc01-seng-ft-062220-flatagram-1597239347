@@ -28,7 +28,11 @@ const COMMENTS = "http://localhost:3000/comments/"
            }
        }
        fetch(COMMENTS+commmentID, config)
-       .then(response => console.log(response.ok))
+       .then(response => {
+           if(response.ok){
+               alert("You have successfully deleted your comment, refresh the page to ensure it is gone :)")
+           }
+       })
     }
 
     function getImages(){
