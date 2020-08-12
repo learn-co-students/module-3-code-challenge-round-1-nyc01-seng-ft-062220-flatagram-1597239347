@@ -7,6 +7,8 @@ const COMMENTS = "http://localhost:3000/comments/"
         document.addEventListener("click", e =>{
             if(e.target.matches(".like-button")){
                likeThisGram(e.target)           
+            }else if(e.target.matches("body > div > div > ul > li > button")){
+                deleteComment(e.target)
             }
         })
         document.addEventListener("submit", e =>{
@@ -14,8 +16,22 @@ const COMMENTS = "http://localhost:3000/comments/"
             submitComment(e.target)
         })
     }
+   
+    function deleteComment(deletebtn){
+       const commmentID = deletebtn.dataset.id
+       
+       let config = {
+           method: 'DELETE',
+           headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+           }
+       }
+       fetch(COMMENTS+commmentID, config)
+       .then(response => console.log(response.ok))
+    }
 
-function getImages(){
+    function getImages(){
         fetch(GETPATCHURL)
         .then(res => res.json())
         .then(image => {
@@ -34,8 +50,13 @@ function getImages(){
         image.comments.forEach(comment => {
             const comments = document.querySelector("body > div > div > ul")
             const commentsLi = document.createElement("li")
-            commentsLi.innerText = comment.content
+            commentsLi.innerText = comment.content 
+             const button = document.createElement("button")
+             button.innerHTML = "x"
+             button.dataset.id = comment.id
+             commentsLi.appendChild(button)
             comments.append(commentsLi)
+            
         })
 
 
@@ -96,6 +117,8 @@ function getImages(){
         // //     res.
         // // })
     }
+
+
 
     
 
