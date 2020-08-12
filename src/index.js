@@ -56,12 +56,15 @@ document.addEventListener("DOMContentLoaded", function(e) {
 
     function clickHandler() {
         document.addEventListener("click", function(event) {
+
+            //This options adds likes
             if (event.target.matches(".like-button")) {
                 const likeButton = event.target
                 const imageCard = likeButton.closest("div").parentElement
                 
                 patchLikes(imageCard)
 
+            //This options add comments    
             } else if (event.target.matches(".comment-button")) {
                 event.preventDefault()
                 let commentButton = event.target
@@ -70,16 +73,23 @@ document.addEventListener("DOMContentLoaded", function(e) {
 
                 addComment(form)
 
+            //This option renders or removes delete button    
             } else if (event.target.matches("li")) {
                 const comment = event.target
-                debugger
-                if (comment.hasChildNodes()) {
-                    console.log("hi!")
+                
+                if (comment.childNodes.length > 1) {
+                    let del = comment.querySelector("button")
+                    del.remove()
                 } else {
                     renderDelete(comment)
                 }
-                
-                // deleteComment(comment)
+             
+            //This option deletes comments    
+            } else if (event.target.innerText === "Delete?") {
+                const del = event.target
+                const comment = del.parentElement
+               
+                deleteComment(comment)
             }
         })
     }
@@ -146,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
 
     function deleteComment(comment) {
         const commentId = comment.dataset.id
-
+        
         const options = {
             method: "DELETE"
         }
