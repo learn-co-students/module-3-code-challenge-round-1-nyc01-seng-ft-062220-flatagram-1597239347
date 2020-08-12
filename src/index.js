@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderImage=(image)=>{
         let imgDivCard = document.querySelector('.image-card'),
             imgDivCont = document.querySelector('.image-container');
-     
+            currentLikes = image.likes
 
               imgDivCard.innerHTML = ''  
               imgDivCard.dataset.imgId = image.id
@@ -124,21 +124,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
             imgComments.appendChild(commentLi)
 
-            const options = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify({
-                    imageId: Number.imgId,
-                    content: commentText,
-                    id
-                })
-            }
-            fetch(COMMENT_URL, options)
-                .then(response => response.json())
-                getImage()
+            // below didn't work. Not enough time to figure out why the comment doesn't get a commentId when posted to the DB.
+
+            // const options = {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'Accept': 'application/json',
+            //     },
+            //     body: JSON.stringify({
+                        // id: id ?
+            //         imageId: Number.imgId,
+            //         content: commentText,
+            //         id
+            //     })
+            // }
+            // fetch(COMMENT_URL, options)
+            //     .then(response => response.json())
+            //     getImage()
+
+
         })
     }
 
