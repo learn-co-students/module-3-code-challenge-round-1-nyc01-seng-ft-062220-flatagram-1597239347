@@ -13,6 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector("div.likes-section").append(newButton)
     }
 
+    //The comment ID counter ensures that, whenever creating a new comment, the comment ID will always be new,
+    //even if a comment has been deleted.
     const setCommentIdCounter = () => {
         const comments = document.querySelectorAll("ul.comments > li")
         let tempId = 0
@@ -126,6 +128,8 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch(COMMENT_URL, configObj)
     }
 
+    // The storedCommentId field fixes a big that occurs if you delete the last comment in the JSON.
+    // Without storing the ID, the id value of the comment isn't stored
     const deleteComment = (comment,storedCommentId) => {
 
         configObj = {

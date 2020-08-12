@@ -24,11 +24,6 @@
       "content": "more tests"
     },
     {
-      "id": 10,
-      "imageId": 1,
-      "content": "crazy"
-    },
-    {
       "id": 11,
       "imageId": 1,
       "content": "aege"
@@ -42,6 +37,16 @@
       "id": 13,
       "imageId": 1,
       "content": "This was a fun code challenge"
+    },
+    {
+      "id": 14,
+      "imageId": 1,
+      "content": "TWAH!!"
+    },
+    {
+      "id": 15,
+      "imageId": 1,
+      "content": "bang"
     }
   ]
 }
