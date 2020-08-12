@@ -65,7 +65,25 @@ document.addEventListener("DOMContentLoaded", function(e) {
                   
                 }else if (e.target.className === 'dislike'){
                     const dislikeButton = e.target
-                    dislikeButton.innerText = "X" //button changes to a X when clicked on Downvote
+                    //dislikeButton.innerText = "X" //button changes to a X when clicked on Downvote
+                    const minusNumber = dislikeButton.parentElement//.children[0]//.innerText
+                    const newLikeSpan = minusNumber.querySelector("span")
+                    //console.log(newLikeSpan.textContent)
+                    const minusLikes = parseInt(newLikeSpan.textContent) - 1 
+
+                    fetch(postURL, {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accepts": "application/json"
+                        },
+                        body: JSON.stringify({
+                            'likes': minusLikes
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(imageObj => newLikeSpan.textContent = imageObj.likes + ' Likes')
+
                 }
             })
         }
