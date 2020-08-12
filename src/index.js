@@ -149,4 +149,8 @@ Deliverabler 3
 √1. Event listener for the form submit
 √2. Add function for post call to add a new comment no persistance? confused. I will persist, people need to know about comments history unless user deletes
 
+Advanced deliverables
+
+√1. Persisting data of comments
+√2. Adding buttons and delete functionality
 */
