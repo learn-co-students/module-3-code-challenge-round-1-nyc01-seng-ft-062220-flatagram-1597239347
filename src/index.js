@@ -74,6 +74,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 commentLi.textContent = comment.content
 
                 imgComments.appendChild(commentLi)
+
+                // in a larger image set would have to have conditional to check imgID on the comment against the pictureID to distribute the comments dynamically
         }
 
     }
@@ -115,8 +117,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             let imgComments = document.querySelector('.comments'),
                 commentText = document.querySelector('.comment-input').value,
-                commentLi = document.createElement('li');
-                ImgId = likeBtn.parentNode.parentNode.dataset.imgId
+                commentLi = document.createElement('li'),
+                ImgId = imgComments.parentNode.dataset.imgId;
 
             commentLi.textContent = commentText
 
@@ -129,12 +131,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     'Accept': 'application/json',
                 },
                 body: JSON.stringify({
-                    imageId: `${imgId}`
-                    content: commentText
+                    imageId: Number.imgId,
+                    content: commentText,
+                    id
                 })
             }
-            fetch(COMMENT_URL)
-
+            fetch(COMMENT_URL, options)
+                .then(response => response.json())
+                getImage()
         })
     }
 
