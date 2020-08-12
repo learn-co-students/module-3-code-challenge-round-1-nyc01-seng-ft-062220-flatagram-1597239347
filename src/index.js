@@ -57,10 +57,16 @@ document.addEventListener("DOMContentLoaded", e=> {
       .then(data => data.forEach(comment => renderComments(comment)))
   }
 
-  const renderComments = (comment, containerDiv, ObjectId) => {
+  const renderComments = (comment) => {
     const containerUl = document.querySelector(".comments")
     const commentLi = document.createElement("li")
+    const deleteButton = document.createElement("button")
+
+    deleteButton.classList.add("delete")
+    commentLi.dataset.id = comment.id
+    deleteButton.textContent = "Delete"
     commentLi.textContent = comment.content
+    commentLi.append(deleteButton)
     containerUl.append(commentLi)
   }
 
@@ -70,8 +76,6 @@ document.addEventListener("DOMContentLoaded", e=> {
       const button = e.target
       createComment(button)
     })
-
-
   }
 
   const clickHandler = () => {
@@ -79,6 +83,9 @@ document.addEventListener("DOMContentLoaded", e=> {
       if (e.target.matches("button.like-button")) {
         const button = e.target
         addLike(button)
+      } else if (e.target.matches("button.delete")) {
+        const button = e.target
+        deleteComment(button)
       }
     })
   }
@@ -130,6 +137,18 @@ document.addEventListener("DOMContentLoaded", e=> {
 
     fetch(urlComments, packet)
       .then(res => res.json())
+      .then(fetchImage())
+  }
+
+  const deleteComment = (button) => {
+    const commentId = button.parentElement.dataset.id
+
+    const packet = {
+      method: "DELETE"
+    }
+
+    fetch(urlComments + commentId, packet)
+      .then(res => res.json)
       .then(fetchImage())
   }
 
