@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
                   
                 }else if (e.target.className === 'dislike'){
                     const dislikeButton = e.target
-                    dislikeButton.innerText = "X"
+                    dislikeButton.innerText = "X" //button changes to a X when clicked on Downvote
                 }
             })
         }
