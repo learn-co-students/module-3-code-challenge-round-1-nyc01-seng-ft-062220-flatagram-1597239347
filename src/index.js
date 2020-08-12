@@ -9,14 +9,15 @@
         > Your comment object must have an `imageId` key with a value of `1` for it to work.
 - √ Delete a comment
         > To persist this, you will have to make a DELETE request to the `/comments/:id` endpoint.
-*/
-
+        */
+       
 document.addEventListener("DOMContentLoaded", e=>{
     
     const page_link = "http://localhost:3000/images/1"
     const comment_link = "http://localhost:3000/comments/"
     const ul = document.querySelector(".comments")
     const button = document.querySelector(".like-button")
+    const form = document.querySelector(".comment-form") 
 
     fetch(page_link)
     .then(resp =>resp.json())
@@ -66,24 +67,22 @@ document.addEventListener("DOMContentLoaded", e=>{
             .then(resp =>{
                 span.innerText = `${newLikes} likes`
             })
-
-        })//button EventListener
+        })
     }//f upVoteImage
  
     function addComment(){
-        let form = document.querySelector(".comment-form") 
         form.addEventListener("submit", e=>{
             
             e.preventDefault()
             let newComment = e.target.comment.value
             let li = document.createElement('li')
-             li.innerText = newComment
-             ul.appendChild(li)
-             form.reset()
-             
-             let body = {imageId:1, content: newComment}
-             
-             let options = {
+            li.innerText = newComment
+            ul.appendChild(li)
+            form.reset()
+        
+            let body = {imageId:1, content: newComment}
+        
+            let options = {
                  method: "POST",
                  headers: {
                      "content-type": "application/json",
@@ -91,49 +90,49 @@ document.addEventListener("DOMContentLoaded", e=>{
                     },
                     body: JSON.stringify(body)
                 }
-            fetch(comment_link, options)
-                
-            })//formEventListener
-        }//f addComment
+            fetch(comment_link, options)        
+        })
+    }//f addComment
         
-        function downVoteImage(){
+    function downVoteImage(){
             
-            let downVoteButton = document.createElement('button')
-            downVoteButton.innerHTML = `♡`
-            downVoteButton.className ="unlike"
+        let downVoteButton = document.createElement('button')
+        downVoteButton.innerHTML = `♡`
+        downVoteButton.className ="unlike"
+        
+        let likeSectionDiv = document.querySelector(".likes-section")
+        likeSectionDiv.insertBefore(downVoteButton, button)
+        
+        let downVote = document.querySelector(".unlike")
+
+        downVote.addEventListener("click", e=>{
             
-            let likeSectionDiv = document.querySelector(".likes-section")
-            likeSectionDiv.insertBefore(downVoteButton, button)
-            
-            let downVote = document.querySelector(".unlike")
-            downVote.addEventListener("click", e=>{
-                
-                let span = document.querySelector(".likes")
-                let likesNumber = parseInt(span.innerText.split(" ")[0])
-                let newLikes = likesNumber-1
-                span.innerText = `${newLikes} likes`
-            })
-        }//f downVoteLikes
+            let span = document.querySelector(".likes")
+            let likesNumber = parseInt(span.innerText.split(" ")[0])
+            let newLikes = likesNumber-1
+            span.innerText = `${newLikes} likes`
+        })
+    }//f downVoteLikes
         
         //when click on comment - it's been deleted
-        function deleteComment(){
+    function deleteComment(){
             
-           ul.addEventListener("click", e=>{
-               let commentId = parseInt(e.target.dataset.id)
-               let li = document.querySelector(`[data-id="${commentId}"]`)
-                let options = {
-                    method: "DELETE"
-                }
-                fetch(comment_link+commentId, options)
-                .then(resp=>[
-                    li.remove()
-                ])  
-            })
-        } //f deleteComment
+        ul.addEventListener("click", e=>{
+            let commentId = parseInt(e.target.dataset.id)
+            let li = document.querySelector(`[data-id="${commentId}"]`)
+             let options = {
+                 method: "DELETE"
+             }
+             fetch(comment_link+commentId, options)
+             .then(resp=>[
+                 li.remove()
+             ])  
+         })
+    } //f deleteComment
         
         upVoteImage()
         addComment()
         downVoteImage()
         deleteComment()
         
-    })//DOMContentLoaded
+})//DOMContentLoaded
