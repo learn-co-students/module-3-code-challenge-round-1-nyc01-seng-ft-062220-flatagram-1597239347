@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector("div.image-card").dataset.postId = post.id
         document.querySelector("h2.title").innerText = post.title
         document.querySelector("img.image").src = post.image
-        document.querySelector("span.likes").innerText = post.likes
+        document.querySelector("span.likes").innerText = `${post.likes} likes`
         document.querySelector("span.likes").dataset.likeCount = post.likes
         for (let i = 0; i < post.comments.length; i++) {
             document.querySelectorAll("ul.comments > li")[i].innerText = post.comments[i].content
@@ -27,7 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const renderLike = (likeSpan) => {
 
-        likeSpan.dataset.likeCount++
+        currentLikeCount = parseInt(likeSpan.dataset.likeCount, 10)
+        currentLikeCount++
+        likeSpan.dataset.likeCount = currentLikeCount
+        likeSpan.innerText = `${currentLikeCount} likes`
 
         configObj = {
             method: "PATCH", 
@@ -35,8 +38,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
-            body: JSON.stringify({a: 1, b: 2})
+            body: JSON.stringify({likes: currentLikeCount})
         }
+
+        fetch(BASE_URL, configObj)
     }
 
     const clickHandler = () => {
@@ -48,7 +53,12 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
+    const submitHandler = () => {
+        
+    }
+
     // const newPost = returnPost(getPost())
     getPost()
     clickHandler()
+    submitHandler()
 })
