@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
         <div class="likes-section">
           <span class="likes">${image.likes} likes</span>
           <button class="like-button">♥</button>
+          <button class="downvote-button">&#8595;</button>
         </div>
         <ul class="comments">
         </ul>
@@ -90,6 +91,12 @@ document.addEventListener("DOMContentLoaded", function(e) {
                 const comment = del.parentElement
                
                 deleteComment(comment)
+
+            } else if (event.target.matches(".downvote-button")) {
+                const downVote = event.target
+                const imageCard = downVote.closest("div").parentElement
+
+                patchDownVote(imageCard)
             }
         })
     }
@@ -103,6 +110,31 @@ document.addEventListener("DOMContentLoaded", function(e) {
         likes += 1
         arr[0] = likes
         let newLikes = arr.join(" ")
+
+        const options = {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json",
+                "accept": "application/json"
+            },
+            body: JSON.stringify({
+               likes: likes 
+            })
+        }
+
+        fetch(GET_URL + IMAGE, options)
+        .then(res => {
+            getImage()
+        })  
+    }
+
+    function patchDownVote(imageCard) {
+        let likeSpan = imageCard.querySelector("span").textContent
+
+        let arr = likeSpan.split(" ")
+        let likes = parseInt(arr[0])
+        likes -= 1
+        
 
         const options = {
             method: "PATCH",
