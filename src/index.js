@@ -21,8 +21,11 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector("img.image").src = post.image
         document.querySelector("span.likes").innerText = `${post.likes} likes`
         document.querySelector("span.likes").dataset.likeCount = post.likes
+        document.querySelectorAll("ul.comments > li").forEach(li => li.remove())
         for (let i = 0; i < post.comments.length; i++) {
-            document.querySelectorAll("ul.comments > li")[i].innerText = post.comments[i].content
+            const newLi = document.createElement("li")
+            newLi.innerText = post.comments[i].content
+            document.querySelector("ul.comments").append(newLi)
         }
     }
 
