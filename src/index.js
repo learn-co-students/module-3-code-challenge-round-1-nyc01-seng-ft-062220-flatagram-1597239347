@@ -1,32 +1,37 @@
 // write your code here
-const imageURL = 'http://localhost:3000/images'
-const commentURL = 'http://localhost:3000/comments'
+const imageURL = 'http://localhost:3000/images/1'
+const commentURL = 'http://localhost:3000/comments/1'
 document.addEventListener("DOMContentLoaded", () => {
     
     fetch(imageURL)
     .then(response => response.json())
-    .then(image => {
-        image.forEach(renderPost)
-    })
+    .then(image => renderImage(image))
 
-    // fetch(commentURL)
-    // .then(response => response.json())
-    // .then(comments => {
-    //     comments.forEach(renderPost)
-    // })
+    fetch(commentURL)
+    .then(response => response.json())
+    .then(comments => renderPost(comments))
+    
 
     //fetch the comments and images they're on seperate URLs and render them to the post 
 
-    const renderPost = (image, comments) => {
-            
-            const imagePost = document.getElementsByClassName("image").src
-            const title = document.querySelector("body > div > div > h2")
-            const likes = document.querySelector("body > div > div > div > span")
-            const commentUl = document.getElementById('comments')
+    const renderPost = (comments) => { 
+
+            const commentUl = document.getElementsByClassName('comments')
             const commentLi = document.createElement('li')
             commentLi.innerText = comments.content
-            console.dir(image)
+            // commentLi.innerText = comments.content
+    }
 
+    const renderImage = (image) => {
+        const imagePost = document.getElementsByClassName("image")
+        const title = document.querySelector("body > div > div > h2")
+        const likes = document.querySelector("body > div > div > div > span")
+        imagePost.innerHTML = `
+        <img src=${image.image} class="image" />
+        `
+
+        title.innerText = image.title
+        likes.innerText = image.likes
     }
 
 
@@ -38,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     
-   
    
     //     As a user, I can:
 // See the image received from the server, including its title, likes and comments when the page loads
