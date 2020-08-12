@@ -17,10 +17,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let imgUrl = img.image
     let image = document.querySelector(".image").src = imgUrl
+  }
+
+  const clickHandler = () => {
+    document.addEventListener('click', function(e){
+      const likeBttn = document.querySelector('.like-button').innerHTML
+      if(e.target.textContent === '♥'{
+        
+
+
+      })
+
+
+
+
+    })
+
+
 
   }
 
-  
 
 
 
@@ -32,6 +48,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+
+
+  clickHandler()
   getImage()
 })
 
