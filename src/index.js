@@ -76,8 +76,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    const addCommentToPost = (comment) => {
-        console.log(comment)
+    const addCommentToPost = (comment, currentCommentSection) => {
+        const li = document.createElement("li");
+        li.textContent = comment;
+        currentCommentSection.appendChild(li);
     }
 
     const clickHandler = () => {
@@ -87,7 +89,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const commentForm = e.target,
                   commentField = commentForm.comment;
 
-            addCommentToPost(commentField.value);
+            addCommentToPost(commentField.value, commentForm.parentElement.querySelector(".comments"));
+            commentForm.reset()
 
         });
 
