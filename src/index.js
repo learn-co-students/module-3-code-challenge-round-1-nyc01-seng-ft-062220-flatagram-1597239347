@@ -1,13 +1,12 @@
 document.addEventListener("DOMContentLoaded", function(e) {
 const imgCard = document.querySelector(".image-card")
-const imgCardChildren = imgCard.children
-const title = imgCardChildren[0]
-const imgTag = imgCardChildren[1]
-const likesSection = imgCardChildren[2]
-const commentsUl = imgCardChildren[3]
-const commentsForm = imgCardChildren[4]
-const likeButton = document.querySelector(".like-button")
+const likesSectionDiv = document.querySelector(".likes-section")
 const commentForm = document.querySelector(".comment-form")
+const numLikesSpan = likesSectionDiv.children[0]
+const imgCardChildren = imgCard.children
+const title = document.querySelector(".title")
+const commentsUl = document.querySelector(".comments")
+const imgTag = imgCardChildren[1]
 let imgData = {}
 
 
@@ -20,19 +19,18 @@ let imgData = {}
         })
     }
 
-
     const renderImg = (imgObj) => {
         title.innerText = imgObj.title 
         imgTag.src = imgObj.image
-        likesSection.children[0].innerText = imgObj.likes + " Likes"
+        likesSectionDiv.children[0].innerText = imgObj.likes + " Likes"
         const imgComments = imgObj.comments
         let commentsArray = []
         imgComments.forEach(comment => commentsArray.push(comment.content))
         commentsArray.forEach(renderComment)
 
-        likeButton.dataset.imgId = imgObj.id
-        likeButton.addEventListener("click", incLikes)
+        likesSectionDiv.addEventListener("click", changeLikes)
 
+        commentForm.dataset.imageId = imgObj.id
         commentForm.addEventListener("submit", submitComment)
     }
 
@@ -42,16 +40,38 @@ let imgData = {}
             commentsUl.append(newComment)
         }
     
-    const submitComment = (e) => {
+    const submitComment = (e) => { //make comments persist
         e.preventDefault()
         const commentText = e.target.children[0].value
+        let newComment = {
+            id: 1, 
+            imageId: 1, 
+            content: commentText}
+        imgData.comments.push(newComment)
+        console.log(imgData)
         renderComment(commentText)
         commentForm.reset()
+
+        const option = {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+                "accept": "application/json"
+            },
+            body: JSON.stringify(newComment)
+        }
+
+        fetch("http://localhost:3000/comments", option) //getting error about an unexpected token
+        .then(resp => resp.json())
+        .then(console.log)
     }
 
-    const incLikes = (e) => {
-        // const imgId = e.target.dataset.imgId // not using this
-        imgData.likes += 1
+    const changeLikes = (e) => {
+        if(e.target.classList.contains("like-button")){
+            imgData.likes += 1
+        }else if(e.target.classList.contains("downvote-button")){
+            imgData.likes -= 1
+        }
         const numLikes = imgData.likes
         const option = {
             method: "PATCH",
@@ -63,10 +83,9 @@ let imgData = {}
                 likes: numLikes
             })
         };
-
         fetch("http://localhost:3000/images/1", option)
         .then(resp => resp.json())
-        .then(likesSection.children[0].innerText = numLikes + " Likes")
+        .then(numLikesSpan.innerText = numLikes + " Likes")
         
     };
 
