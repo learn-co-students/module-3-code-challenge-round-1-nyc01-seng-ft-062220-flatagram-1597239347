@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
             const downVote = document.querySelector(".dislike")  
             title.textContent = imageObj.title
             image.src = imageObj.image
-            likes.textContent = imageObj.likes //+ ' Likes'
+            likes.textContent = imageObj.likes + ' Likes'
             postContainer.id = imageObj.id
             comments.innerHTML = ''
             //console.log(imageObj.comments[1])
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
                         })
                     })
                     .then(response => response.json())
-                    .then(imageObj => likeSpan.textContent = imageObj.likes)
+                    .then(imageObj => likeSpan.textContent = imageObj.likes + ' Likes')
                   
                 }else if (e.target.className === 'dislike'){
                     const dislikeButton = e.target
