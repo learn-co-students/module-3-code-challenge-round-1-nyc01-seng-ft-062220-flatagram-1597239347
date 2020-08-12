@@ -2,10 +2,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
      const image = document.querySelector(".image")
      const span = document.querySelector(".likes")
-     //const comm = document.querySelector(".comments")
-     //const listUl = document.getElementsByTagName( "li")
+     const button = document.querySelector(".comment-button")
      const heart = document.querySelector(".like-button")
-
+     const input = document.querySelector("input")
 
          fetch( "http://localhost:3000/images/1")
          .then(resp => resp.json())
@@ -15,8 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
          function renderImg(obj){
              image.src = obj.image 
              span.innerHTML = `${obj.likes} likes`
-             
-         }
+         }  
+         
 
          heart.addEventListener("click", function(e) { 
                 let options = {
@@ -25,9 +24,9 @@ document.addEventListener('DOMContentLoaded', function() {
                       "Content-Type": "application/json",
                       "Accept": "application/json"
                     },
-                    body: JSON.stringify({                  
-                    })
-                }
+                    body: JSON.stringify(       
+                    )
+                }})
             
               fetch ( "http://localhost:3000/images/1" + options)
               .then(res => {res.json()})
@@ -35,10 +34,11 @@ document.addEventListener('DOMContentLoaded', function() {
         })
 
          
+       button.addEventListener("submit", function(e){e.preventDefault()
+        console.log (e.target)
+                    
+
+})        
 
 
-        
-        
-
-})
 
