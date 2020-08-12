@@ -77,8 +77,25 @@ document.addEventListener("DOMContentLoaded", e=>{
         li.innerText = newComment
         ul.appendChild(li)
         form.reset()
+        
+        let comment_link = "http://localhost:3000/comments"
 
-    })
+        let body = {
+            imageId:1,
+            content: newComment}
+
+        let options = {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+                "accept": "application/json"
+            },
+            body: JSON.stringify(body)
+        }
+        fetch(comment_link, options)
+        
+
+    })//formEventListener
 
 
 })//DOMContentLoaded
