@@ -1,5 +1,8 @@
 
 
+// WARRNING THE CODE YOU ARE ABOUT TO READ IS NOT DRY. YOU WONT NEED ANY WATER READING THIS.
+// Time permiting, I'd love to refactor :)
+
 
 // CORE Deliverables
 
@@ -84,8 +87,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 let likesTargetId = likeBtn.parentNode.parentNode.dataset.imgId
                     likesNum = likeBtn.parentElement.querySelector(".likes").textContent.split(' ')[0]
 
-                    let updatedLikes = currentLikes++
-                        likesNum = currentLikes
+                let updatedLikes = currentLikes++
+                    likesNum = currentLikes
+
                 const options = {
                     method: 'PATCH',
                     headers: {
@@ -108,15 +112,28 @@ document.addEventListener("DOMContentLoaded", () => {
     commentHandler=()=> {
         document.addEventListener("submit", e => {
             e.preventDefault()
-            let imgComments = document.querySelector('.comments')
-            let commentText = document.querySelector('.comment-input').value
-            let commentLi = document.createElement('li');
+
+            let imgComments = document.querySelector('.comments'),
+                commentText = document.querySelector('.comment-input').value,
+                commentLi = document.createElement('li');
+                ImgId = likeBtn.parentNode.parentNode.dataset.imgId
 
             commentLi.textContent = commentText
 
             imgComments.appendChild(commentLi)
-                
 
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    imageId: `${imgId}`
+                    content: commentText
+                })
+            }
+            fetch(COMMENT_URL)
 
         })
     }
