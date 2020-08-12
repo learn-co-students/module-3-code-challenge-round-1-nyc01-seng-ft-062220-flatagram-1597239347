@@ -9,6 +9,11 @@
 // - on click send fetch post request to id and update likes
 // - then rerender likes
 // Add a comment (no persistance needed)
+// - listen for submit event
+// - grab form tag
+// - grab comment value from form
+// - create li and add value to inner text
+// - append li to comment list
 
 const baseUrl = `http://localhost:3000`
 
@@ -21,18 +26,19 @@ document.addEventListener(`DOMContentLoaded`, e => {
         const likes = imageContainer.querySelector(`span`)
         
         imageContainer.dataset.id = imageData.id
+        imageContainer.dataset.likes = imageData.likes
+        
         title.innerText = imageData.title
         image.src = imageData.image
         likes.innerText = `${imageData.likes} likes`
-        imageData.comments.forEach(comment => renderComment(comment))
-        
+        if (imageData.comments) imageData.comments.forEach(comment => renderComment(comment))
     }
     const renderComment = comment => {
         const commentUl = document.querySelector(`.comments`)
         const commentLi = document.createElement(`li`)
+        
         commentLi.innerText = comment.content
         commentUl.append(commentLi)
-        
     }
     
     commentUl.innerHTML = ``
@@ -45,17 +51,28 @@ document.addEventListener(`DOMContentLoaded`, e => {
         if (e.target.matches(`.like-button`)) {
             const imageContainer = e.target.parentNode.parentNode.parentNode
             const id = imageContainer.dataset.id
-            const likes = 0
+            const likes = parseInt(imageContainer.dataset.likes) + 1
 
-            // fetch(baseUrl + `/images/1`, {
-            //     method: `POST`,
-            //     headers: {
-
-            //     },
-            //     body: JSON.stringify({likes: likes})
-            // })
-            console.log(id)
+            fetch(baseUrl + `/images/1`, {
+                method: `PATCH`,
+                headers: {
+                    "content-type": `application/json`,
+                    accept: `application/json`
+                },
+                body: JSON.stringify({likes: likes})
+            })
+            .then(r => r.json())
+            .then(imageData => renderImageData(imageData))  
         }
         
+    })
+
+    document.addEventListener(`submit`, e => {
+        e.preventDefault()
+        if (e.target.matches(`.comment-form`)) {
+            const form = e.target
+            const comment = form.comment.value
+            console.log(form.comment.value)
+        }
     })
 })
