@@ -22,19 +22,19 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             let data = await response.json();
             renderPost(data);
-            parseComments(data.comments)
+            // parseComments(data.comments)
         }
     }
 
-    const parseComments = (postComments) => {
+    const parseComments = (postComments, currentCommentSection) => {
         for (const post of postComments) {
-            renderComments(post);
+            renderComments(post, currentCommentSection);
         }
     }
 
 
-    const renderComments = (postCommentObj) => {
-
+    const renderComments = (postCommentObj, currentCommentSection) => {
+        console.log(currentCommentSection)
     }
 
     const renderPost = (postObj) => {
@@ -50,8 +50,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 likesBtn = divForLikesOnCard.children[1];
         likesOnCard.textContent = `${postObj.likes} likes`;
 
-        debugger;
-
+        // comment properties
+        const commentSection = divCard.children[3]
+        parseComments(postObj.comments, commentSection)
     }
 
    
