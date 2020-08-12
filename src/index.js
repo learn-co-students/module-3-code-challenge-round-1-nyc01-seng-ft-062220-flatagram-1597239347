@@ -6,6 +6,13 @@ let commentIdCounter = 0
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    const addDownVote = () => {
+        const newButton = document.createElement("button")
+        newButton.className = "downvote-button"
+        newButton.innerText = "Downvote"
+        document.querySelector("div.likes-section").append(newButton)
+    }
+
     const setCommentIdCounter = () => {
         const comments = document.querySelectorAll("ul.comments > li")
         let tempId = 0
@@ -68,6 +75,27 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch(BASE_URL, configObj)
     }
 
+    const decrementLike = (likeSpan) => {
+
+        currentLikeCount = parseInt(likeSpan.dataset.likeCount, 10)
+        if (currentLikeCount > 0) {
+            currentLikeCount--
+            likeSpan.dataset.likeCount = currentLikeCount
+            likeSpan.innerText = `${currentLikeCount} likes`
+
+            configObj = {
+                method: "PATCH", 
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({likes: currentLikeCount})
+            }
+
+            fetch(BASE_URL, configObj)
+        }
+    }
+
     const addDeleteButton = (commentLi) => {
         const newDelete = document.createElement("button")
         newDelete.className = "delete-button"
@@ -128,6 +156,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 button.parentNode.querySelector("input.comment-input").value = ""
             } else if (button.matches("button.delete-button")) {
                 deleteComment(button.parentNode)
+            } else if (button.matches("button.downvote-button")) {
+                decrementLike(button.parentNode.querySelector("span.likes"))
             }
         })
     }
@@ -145,6 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // const newPost = returnPost(getPost())
     getPost()
     clickHandler()
+    addDownVote()
     // setCommentIdCounter()
     // submitHandler()
 })
