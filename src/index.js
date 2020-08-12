@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    const updatePost = async (postObj) => {
+    const updatePost = async (postObj, currentCard) => {
         url = BASE_URL + IMAGES_URL + 1;
 
         const options = {
@@ -43,12 +43,12 @@ document.addEventListener("DOMContentLoaded", () => {
             throw new Error(`HTTP error! status: ${response.status}`);
         } else {
             let data = await response.json();
-            console.log(data);
+            renderPost(data);
         }
     }
 
     const parseComments = (postComments, currentCommentSection) => {
-        currentCommentSection.innerHTML = "";
+        // currentCommentSection.innerHTML = "";
         for (const comment of postComments) {
             const li = document.createElement("li");
             li.textContent = comment.content;
@@ -81,12 +81,10 @@ document.addEventListener("DOMContentLoaded", () => {
                       likesOnCard = divLikes.querySelector("span");
                 let currentLikesCount = parseInt(likesOnCard.textContent.split(" ")[0]);
                 currentLikesCount++
-                debugger;
                 likesObj = {
                     likes: currentLikesCount
                 };
                 updatePost(likesObj)
-                console.log("Add Likes")
             }
         })
 
