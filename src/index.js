@@ -1,6 +1,7 @@
 // write your code here
 
 BASE_URL = "http://localhost:3000/images/1"
+COMMENT_URL = "http://localhost:3000/comments"
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -51,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         commentObj = {
             "id": document.querySelectorAll("ul.comments > li").length,
-            "imageId": document.querySelector("div.image-card").dataset.postId,
+            "imageId": parseInt(document.querySelector("div.image-card").dataset.postId),
             "content": commentForm.querySelector("input.comment-input").value
         }
 
@@ -65,6 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
             body: JSON.stringify(commentObj)
         }
 
+        fetch(COMMENT_URL, configObj)
     }
 
     const clickHandler = () => {
