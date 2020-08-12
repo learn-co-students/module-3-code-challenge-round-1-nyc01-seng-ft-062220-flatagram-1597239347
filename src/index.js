@@ -129,9 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch(COMMENT_URL, configObj)
     }
 
-    const deleteComment = (comment) => {
-
-        comment.remove()
+    const deleteComment = (comment,storedCommentId) => {
 
         configObj = {
             method: "DELETE",
@@ -140,8 +138,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 'Accept': 'application/json'
             }
         }
-
-        fetch(COMMENT_URL + comment.dataset.commentId, configObj)
+        
+        fetch(COMMENT_URL + storedCommentId, configObj)
+        .then(response => response.json())
+        .then(comment.remove())
 
     }
 
@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 renderComment(button.parentNode)
                 button.parentNode.querySelector("input.comment-input").value = ""
             } else if (button.matches("button.delete-button")) {
-                deleteComment(button.parentNode)
+                deleteComment(button.parentNode, button.parentNode.dataset.commentId)
             } else if (button.matches("button.downvote-button")) {
                 decrementLike(button.parentNode.querySelector("span.likes"))
             }
