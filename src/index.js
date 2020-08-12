@@ -13,13 +13,19 @@
 // √ Click on the heart icon to increase image likes, 
 // √ and still see them when I reload the page
 
-// grab heart button 
-// add CLICK LISTENER TO BUTTON
-// PARSE INT likes from string to number
+// √grab heart button 
+// √add CLICK LISTENER TO BUTTON
+// √PARSE INT likes from string to number also increasing number of likes
 
 
 
 // √ Add a comment (no persistance needed)
+
+// √grab FORM **** PREVENT DEFAULT***
+// √grab FORM INPUT and its value
+// √create new comment LI and append FORM INPUTS to new li and append to comment UL
+
+
 
 
 
@@ -82,7 +88,6 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", function(e){
         e.preventDefault()
         let input = document.querySelector(".comment-input")
-        // input.value 
         let addedLi = document.createElement("li")
         addedLi.innerHTML = input.value
         imageComments.append(addedLi) 
