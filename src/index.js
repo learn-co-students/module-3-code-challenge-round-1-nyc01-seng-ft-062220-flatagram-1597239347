@@ -1,9 +1,9 @@
 // write your code here
 // As a user, I can:
 
-// See the image received from the server, including its title, likes and comments when the page loads
-// Click on the heart icon to increase image likes, and still see them when I reload the page
-// Add a comment (no persistance needed)
+// 1) XXXXSee the image received from the server, including its title, likes and comments when the page loads
+// 2) XXX Click on the heart icon to increase image likes, and still see them when I reload the page
+// 3) XXXAdd a comment (no persistance needed)
 
 document.addEventListener("DOMContentLoaded", function(e) {
     const postURL = "http://localhost:3000/images/1"
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
             const comments = document.querySelector(".comments")
             title.textContent = imageObj.title
             image.src = imageObj.image
-            likes.textContent = imageObj.likes + ' Likes'
+            likes.textContent = imageObj.likes //+ ' Likes'
             postContainer.id = imageObj.id
             comments.innerHTML = ''
             //console.log(imageObj.comments[1])
@@ -36,30 +36,6 @@ document.addEventListener("DOMContentLoaded", function(e) {
 
         //Click on the heart icon to increase image likes, and still see them when I reload the page
 
-        // const clickHandler = () => {
-        //     document.addEventListener('click', function(e) {
-        //         if(e.target.className === 'like-button') {
-        //             const likeButton = e.target
-        //             const likeNumber = likeButton.previousElementSibling
-        //             //console.log(likeNumber)
-        //             const likeSpan = likeNumber.querySelector("span")
-        //             //console.log(likeSpan)
-        //             const newLikes = parseInt(likeSpan.textContent) + 1 + "likes"
-        //             console.log(newLikes)
-        
-                
-                
-        //         fetch(postURL, {
-        //             method: "PATCH",
-        //             headers: {
-        //                 "Content-type": "application/json",
-        //                 "Accepts": "application/json"
-        //             },
-        //             body: JSON.stringify({likes: newLikes })
-        //         })
-        //     }  
-        //     })
-        // }
 
         const clickHandler = () => {
             document.addEventListener('click', function(e) {
@@ -70,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
                     const likedNumber = likeButton.parentElement//.children[0]//.innerText
                     const likeSpan = likedNumber.querySelector("span")
                     //console.log(likeSpan.textContent)
-                    const newLikes = parseInt(likeSpan.textContent) + 1 + " Likes"
+                    const newLikes = parseInt(likeSpan.textContent) + 1 
                     //console.log(newLikes)
                     
                     fetch(postURL, {
