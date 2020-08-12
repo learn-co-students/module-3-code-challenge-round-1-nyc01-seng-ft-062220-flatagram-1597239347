@@ -6,7 +6,8 @@ const imgTag = imgCardChildren[1]
 const likesSection = imgCardChildren[2]
 const commentsUl = imgCardChildren[3]
 const commentsForm = imgCardChildren[4]
-const button = document.querySelector(".like-button")
+const likeButton = document.querySelector(".like-button")
+const commentForm = document.querySelector(".comment-form")
 let imgData = {}
 
 
@@ -19,28 +20,39 @@ let imgData = {}
         })
     }
 
+
     const renderImg = (imgObj) => {
         title.innerText = imgObj.title 
         imgTag.src = imgObj.image
         likesSection.children[0].innerText = imgObj.likes + " Likes"
         const imgComments = imgObj.comments
-        imgComments.forEach(comment => {
-            const newComment = document.createElement("li")
-            newComment.innerText = comment.content
-            commentsUl.append(newComment)
-        })
+        let commentsArray = []
+        imgComments.forEach(comment => commentsArray.push(comment.content))
+        commentsArray.forEach(renderComment)
 
+        likeButton.dataset.imgId = imgObj.id
+        likeButton.addEventListener("click", incLikes)
 
-        button.dataset.imgId = imgObj.id
-        button.addEventListener("click", incLikes)
-        
-        
-
+        commentForm.addEventListener("submit", submitComment)
     }
 
-    incLikes = (e) => {
-        // const imgId = e.target.dataset.imgId
-        const numLikes = parseInt(imgData.likes) + 1
+    const renderComment = (comment) => {
+            const newComment = document.createElement("li")
+            newComment.innerText = comment
+            commentsUl.append(newComment)
+        }
+    
+    const submitComment = (e) => {
+        e.preventDefault()
+        const commentText = e.target.children[0].value
+        renderComment(commentText)
+        commentForm.reset()
+    }
+
+    const incLikes = (e) => {
+        // const imgId = e.target.dataset.imgId // not using this
+        imgData.likes += 1
+        const numLikes = imgData.likes
         const option = {
             method: "PATCH",
             headers: {
@@ -56,8 +68,9 @@ let imgData = {}
         .then(resp => resp.json())
         .then(likesSection.children[0].innerText = numLikes + " Likes")
         
-
     };
+
+
 
 
 
