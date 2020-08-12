@@ -6,14 +6,14 @@ comment belongs to an image
 
 PLAN
 DONE- Domcontentloaded listener
-- Get  image (title, likes, image)
-    - Render to the DOM
+DONE- Get  image (title, likes, image)
+    DONE- Render to the DOM
 
-- Get comments (imageId, content)
-    - render to dom under image
+DONE- Get comments (imageId, content)
+    DONE- render to dom under image
 
 
-- Add event listener to heart icon (like button)
+DONE- Add event listener to heart icon (like button)
     - Patch request to change image likes in DB
     - render pessamistically to DOM
 
@@ -27,8 +27,9 @@ document.addEventListener("DOMContentLoaded",function(){
     const imageURL = "http://localhost:3000/images/1"
 
     const imgTag = document.querySelector(".image")
+    const titleHeader = document.querySelector(".title")
+    const likesSpan = document.querySelector(".likes")
     const commentsUl = document.querySelector(".comments")
-
     const likeButton = document.querySelector(".like-button")
 
     //I know that I could've gotten commetns out of image obj
@@ -38,19 +39,42 @@ document.addEventListener("DOMContentLoaded",function(){
         .then(response => response.json())
         .then(imageObj => {
             renderImage(imageObj)
-        
+            const imageComments = imageObj.comments
+            renderComments(imageComments)
         })
     }
 
     function renderImage(imageObj) {
         const imageURL = imageObj.image
+        const imageTitle = imageObj.title
+        const imageLikes = imageObj.likes
+
         imgTag.src = imageURL
+        titleHeader.textContent = imageTitle
+        likesSpan.textContent = `${imageLikes} Likes`
+
     }
 
-    function renderComments () {
-
+    function renderComments (commentsArray) {
+        commentsUl.innerHTML = ""
+        commentsArray.forEach(function(comment){
+            const commentContent = comment.content
+            const commLi = document.createElement("li")
+            commLi.innerHTML = commentContent
+            commentsUl.append(commLi)
+        })
     }
 
-    renderComments()
+
+    document.addEventListener("click", function(e){
+        if(e.target.matches(".like-button")){
+            const currentLikes = 
+        }
+        
+
+
+    })
+
+
     getImage()
 })
