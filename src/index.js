@@ -94,8 +94,25 @@ document.addEventListener("DOMContentLoaded", () => {
         form.reset()
     })
    
+                 ///////// STRETCH /////////
 
-
+    const likesSection = document.querySelector(".likes-section")
+    const down = document.createElement("button")
+    down.className = "down-button"
+    down.innerHTML = " 💔 "
+    down.addEventListener("click",function(e){
+        let downLikes = imageLikes.innerHTML = parseInt(imageLikes.innerHTML) - 1 + " Likes"
+        fetch(imageUrl,{
+            method: "PATCH",
+            headers:{
+                "Content-Type": "application/json",
+                "Accepts": "application/json"},
+            body: JSON.stringify({likes: downLikes})
+        })
+    })
+   
+    
+    likesSection.append(down)
 
 })
     
