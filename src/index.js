@@ -6,6 +6,7 @@ const imagesURL = "http://localhost:3000/images/1"
 document.addEventListener("DOMContentLoaded", () => {
     const imageCard = document.querySelector('.image-card')
     const commentForm = document.querySelector('.comment-form')
+    const commentContainer = document.querySelector('.comments')
 
     //render 
     const getImage = () => {
@@ -28,13 +29,15 @@ document.addEventListener("DOMContentLoaded", () => {
         
         const comments = image.comments 
 
-        const commentContainer = document.querySelector('.comments')
         commentForm.dataset.id = image.id
         commentContainer.innerHTML = ""
         for(const comment of comments){
             let commentLi = document.createElement('li')
             commentLi.dataset.id = comment.id 
             commentLi.innerHTML = comment.content
+            let deleteBtn = document.createElement('button')
+            deleteBtn.innerHTML = "delete"
+            commentLi.append(deleteBtn)
             commentContainer.append(commentLi)
         }  
 
@@ -87,7 +90,26 @@ document.addEventListener("DOMContentLoaded", () => {
                     })
         })
     }
+
+    const deleteHandler = () => {
+        commentContainer.addEventListener('click', e => {
+            if(e.target.innerHTML === "delete") {
+                let deleteBtn = e.target 
+                let comment = deleteBtn.parentElement
+                let id = comment.dataset.id
+
+                fetch(commentURL`/${id}`, {
+                    method: "Delete"
+                }).then(resp => resp.json())
+                .then(data => {
+                    getImage(data)
+                })
+                
+            }
+        })
+    }
     
+    deleteHandler()
     formHandler()
     likeHandler()
     getImage()
@@ -97,12 +119,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /* 
 
+ Downvote an image
+- Still see the comments written after reloading the page
+  > For this one, you want to make a POST request to the `/comments` endpoint.
+  > Your comment object must have an `imageId` key with a value of `1` for it to work.
+- Delete a comment
+  > To persist this, you will have to make a DELETE request to the `/comments/:id` endpoint.
+
 √1. See the image received from the server, including its title, likes and comments when the page loads
 
 √2. Click on the heart icon to increase image likes, and still see them when I reload the page
 
 
-3. Add a comment (no persistance needed)
+√3. Add a comment (no persistance needed)
 
 */
 
