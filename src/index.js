@@ -2,6 +2,7 @@
 
 document.addEventListener("DOMContentLoaded", function() {
 
+    //#1
     function getImageData() {
         fetch(`http://localhost:3000/images/1`)
         .then(response => response.json())
@@ -10,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
         })
     }
 
+    //#2
     const imgTag = document.querySelector('.image')
     const picDataDiv = document.querySelector('.image-card')
     function renderImageData(data) {
@@ -22,11 +24,37 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 
+    //#3 
+    function clickHandler() {
+        document.addEventListener('click', e => {
+            if (e.target.className === "like-button") {
+
+                const obj = {
+                    method: "PATCH",
+                    headers: {
+                        "Content-type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        likes: parseInt(picDataDiv.children[2].children[0].innerText) + 1
+                    })
+                }
+
+                fetch(`http://localhost:3000/images/1`, obj)
+                .then(response => response.json())
+                .then(someData => {
+                    picDataDiv.children[2].children[0].innerText = someData.likes + ' likes'
+                })
+            }
+        })
+    }
+
+
 
 
 
 
 
     getImageData()
-
+    clickHandler()
 })
