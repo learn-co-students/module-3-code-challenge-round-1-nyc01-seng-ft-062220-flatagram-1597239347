@@ -19,6 +19,16 @@ DONE- Event listener on submit button that adds comment
     DONE- DOES NOT NEED TO PERSIST IN DB
     DONE - clear form value when submited
 
+Advanced Deliverables
+- Downvote image
+    - Add downvote button
+    - add an if else statement in click lisenter
+        - add logic that does reverse of like button (decreases like count and renders pessamistically)
+- Make new comments persist
+    - fetch post to db in submit event listener - render pessamistically
+    - 
+- Delete a comment
+
 */
 
 document.addEventListener("DOMContentLoaded",function(){
