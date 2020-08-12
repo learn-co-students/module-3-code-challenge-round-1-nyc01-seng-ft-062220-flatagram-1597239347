@@ -9,7 +9,9 @@ document.addEventListener("DOMContentLoaded", ()=> {
     //  Add a comment (no persistance needed)
 
     const url = 'http://localhost:3000/images/1'
-    
+    let dogLikes = document.querySelector('.likes')
+    const likeButton = document.querySelector('.like-button')
+    const leaveDoggoLove = document.querySelector('.comments-form')
     
 
     function getDoggo(){
@@ -21,7 +23,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
     function renderDoggo(doggo){
         const dogTitle = document.querySelector('.title')
         const dogImage = document.querySelector('.image')
-        let dogLikes = document.querySelector('.likes')
+        // let dogLikes = document.querySelector('.likes')
         // put comments in array to filter
         let allComments = doggo.comments
         // console.log(allComments)
@@ -37,8 +39,31 @@ document.addEventListener("DOMContentLoaded", ()=> {
             commentsLi.innerText = commentsContent
             dogComments.append(commentsLi)
         })
-        
     }
+    
+    likeButton.addEventListener('click', function(e){
+        let newLikes = dogLikes.innerText = parseInt(dogLikes.innerText) + 1 + ' Likes'
+
+        fetch(url, {
+            method: 'PATCH',
+            headers: {'Content-Type': 'application/json',
+            'Accepts': 'application/json'},
+            body: JSON.stringify({ likes: newLikes })
+        })
+
+    })
+    
+    
+    leaveDoggoLove.addEventListener('submit', function(e){
+        e.preventDefault()
+        let givingDoggoLove = document.querySelector('.comment-input')
+        
+        let newLoveLi = document.createElement('li')
+        newLoveLi.innerText = givingDoggoLove.value
+        dogComments.append(newLoveLi)
+
+    })
+
 
     getDoggo()
 
