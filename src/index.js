@@ -6,27 +6,37 @@
 // Add a comment (no persistance needed)
 
 document.addEventListener("DOMContentLoaded", function(e) {
-    const postURL = "http://localhost:3000/images"
+    const postURL = "http://localhost:3000/images/1"
     // const postContainer = document.querySelector(".image-card")
 
-    const fetchPost = () => {
+    const fetchImage = () => {
         fetch(postURL)
         .then(response => response.json())
-        .then(post => renderPost(post))
+        .then(imageObj => renderImage(imageObj))
     }
 
-    function renderPost(post) {
-        const title = document.querySelector(".title")
-        console.log(postTitle)
-        const image = document.querySelector(".img")
-        const likes = document.querySelector(".likes")
-        const comments = document.querySelector(".comments")
-        title.textContent = post.title
-        image.src = post.image 
-        likes.textContent = post.likes + ' likes'
-        postComments.innerHTML = ''
+    const renderImage = (imageObj) => {
+            const title = document.querySelector(".title")
+            const image = document.querySelector(".image")
+            const likes = document.querySelector(".likes")
+            const comments = document.querySelector(".comments")
+            title.textContent = imageObj.title
+            image.src = imageObj.image
+            likes.textContent = imageObj.likes + ' Likes'
+            comments.innerHTML = ''
+            //console.log(imageObj.comments[1])
+            for (let i = 0; i < imageObj.comments.length; i++) {
+                const element = imageObj.comments[i];
+                const li = document.createElement('li')
+                li.textContent = element.content
+                comments.append(li)  
+            }
+        }
 
-    }
+        const clickHandler = () => {
 
-    fetchPost()
+        }
+
+    clickHandler()
+    fetchImage()
 })
