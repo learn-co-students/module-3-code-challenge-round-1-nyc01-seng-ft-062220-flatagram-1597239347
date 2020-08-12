@@ -1,8 +1,6 @@
 // write your code here
 /*
 
-images hasm any comments
-comment belongs to an image
 
 PLAN
 DONE- Domcontentloaded listener
@@ -34,7 +32,7 @@ document.addEventListener("DOMContentLoaded",function(){
     
     const likeButton = document.querySelector(".like-button")
     const likeSpan = document.querySelector(".likes")
-    //I know that I could've gotten commetns out of image obj
+
 
     function getImage() {
         fetch(imageUrl)
