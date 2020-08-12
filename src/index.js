@@ -32,20 +32,17 @@ const parseImageToHtml = (dogImage) => {
 
 }
 
+
 const clickHandler = () => {
+    let counter = 0
     document.addEventListener("click", function(e){
         const heartButton = document.querySelector(".like-button")
-        let counter = 0
-        let increaseLikes
-        let likes = document.querySelector(".likes").innerHTML
+        let likes = document.querySelector(".likes")
         if (e.target === heartButton) { 
             counter = counter + 1
-            console.log(counter)
-            
-            likes.innerText=`
-            ${counter} likes
-            `
-
+                likes.innerHTML=`
+                ${counter} likes
+                `
             // debugger
         }
     })
@@ -68,8 +65,8 @@ Click on the heart icon to increase image likes, and still see them when I reloa
         -target the heart button
         -upon click of the heart, increment the likes
             access the likes
-            replace inner text with 
-
+            replace inner text with likes
+        need it to persist
 
 Add a comment (no persistance needed)
     -event listener on submit button
