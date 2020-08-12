@@ -7,19 +7,20 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const imgParse = (img) => {
-    img.forEach(img => console.log(img))
+    img.forEach(img => renderToHtml(img))
+  }
 
+  const renderToHtml = (img) =>{
+    let title = document.querySelector('.title')
+    let imgTitle = img.title
+    title.append(imgTitle)
 
-
-
-
-
-
-
-
-
+    let imgUrl = img.image
+    let image = document.querySelector(".image").src = imgUrl
 
   }
+
+  
 
 
 
@@ -51,7 +52,7 @@ As a user, I can:
   -add a DOMContentLoaded√
   -make a fetch request to URL√
   -render attributes√
-  -append attributes to DOM
+  -append attributes to DOM√
 
 2.Click on the heart icon to increase image likes, and still see them when I reload the page
   -add an event listener
