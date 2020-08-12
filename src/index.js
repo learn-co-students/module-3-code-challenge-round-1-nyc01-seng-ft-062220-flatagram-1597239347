@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", e =>{
 const GETPATCHURL= "http://localhost:3000/images/1"
+const COMMENTS = "http://localhost:3000/comments/"
 
 
     function clickHandler(){
@@ -8,8 +9,38 @@ const GETPATCHURL= "http://localhost:3000/images/1"
                likeThisGram(e.target)           
             }
         })
+        document.addEventListener("submit", e =>{
+            console.log(e.target)
+            e.preventDefault()
+            submitComment(e.target)
+        })
     }
 
+
+
+    function submitComment(comment){
+        const comments = comment[0].value
+        debugger
+        let config = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                comment: comments
+            })
+        }
+        fetch(COMMENTS, config)
+        .then(response => {
+            if (response.ok){
+              const commentUL = document.querySelector("body > div > div > ul")
+              const commentLI = document.createElement("li")
+              commentLI.innerText = comments
+              commentUL.append(comments)
+            }
+        })
+    }
 
     function likeThisGram(likeBtn){
        const likeCount = parseInt(likeBtn.previousElementSibling.innerText[0])
@@ -109,4 +140,9 @@ Deliverable 2
 √2. Create function for like patch. Load updated likes without page refresh (load on patch request condition like status or response that like button is increasing from prior click)
 √3. See updated likes on page load(already covered in last deliverable)
 Weird functionality to look at where after 10 likes it restarts at 2 likes ¯\_(ツ)_/¯
+
+Deliverabler 3
+√1. Event listener for the form submit
+√2. Add function for post call to add a new comment no persistance? confused. I will persist, people need to know about comments history unless user deletes
+
 */
