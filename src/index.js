@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const picDataDiv = document.querySelector('.image-card')
     function renderImageData(data) {
         imgTag.src = data.image 
+        imgTag.dataset.id = data.id
         picDataDiv.children[0].innerText = data.title
         picDataDiv.children[2].children[0].innerText = data.likes+' likes'
         picDataDiv.children[3].children[0].innerText = data.comments[0].content
@@ -56,15 +57,33 @@ document.addEventListener("DOMContentLoaded", function() {
         document.addEventListener("click", e => {             //it doesn't work with "submit"!!!
             e.preventDefault()
             if (e.target.className === "comment-button") {
-                const newComment = document.createElement('li')
-                newComment.innerText = form.children[0].value
-                commentsList.append(newComment)
-                form.children[0].value = '' //afted adding a comment the comment field should be reset 
+
+                obj = {
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        imageId: parseInt(imgTag.dataset.id),
+                        content: form.children[0].value 
+                    })
+                }
+
+                fetch(`http://localhost:3000/comments`, obj)
+                .then(response => response.json())
+                .then(postedData => {
+                    const newComment = document.createElement('li')
+                    newComment.innerText = postedData.content
+                    commentsList.append(newComment)
+                })
+                form.children[0].value = ''
             }
         })
     }
     /////////////CORE DELIVERABLES ^^
 
+    //#5
     const likeSection = document.querySelector(".likes-section")
     function downvote() {
         const dislike = document.createElement('button')
@@ -99,8 +118,28 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+
+
     getImageData()
     clickHandler()
     addComment()
     downvote()
 })
+
+
+
+
+    // //#4 ADDING COMMENT WITHOUT PERSISTING
+    // const form = document.querySelector('form')
+    // const commentsList = document.querySelector('.comments')
+    // function addComment() {
+    //     document.addEventListener("click", e => {             //it doesn't work with "submit"!!!
+    //         e.preventDefault()
+    //         if (e.target.className === "comment-button") {
+    //             const newComment = document.createElement('li')
+    //             newComment.innerText = form.children[0].value
+    //             commentsList.append(newComment)
+    //             form.children[0].value = '' //afted adding a comment the comment field should be reset 
+    //         }
+    //     })
+    // }
