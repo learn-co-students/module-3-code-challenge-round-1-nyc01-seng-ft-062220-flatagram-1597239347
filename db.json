@@ -22,6 +22,11 @@
       "id": 3,
       "imageId": 1,
       "content": "Woof!"
+    },
+    {
+      "content": "Smart Dog!!",
+      "imageId": 1,
+      "id": 4
     }
   ]
 }
