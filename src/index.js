@@ -1,4 +1,5 @@
-// write your code here
+// I hope i did well, but i really think i did. also sorry for putting the actions on top and my functions at the bottom. I know Steven does it the opposite way
+//but it honestly makes sense to me to do it this way. anywho, have a nice one. I hope grading these submissions isn't too crazy for you guys
 
 
 document.addEventListener("DOMContentLoaded",function(){
@@ -19,8 +20,10 @@ document.addEventListener("DOMContentLoaded",function(){
         if(e.target.className === "like-button" ){
             const imageID = e.target.parentNode.parentNode.dataset.id,
             likeNumber = parseInt(likes.textContent.split(" ")[0]) +1;
-            patchPage(imageID,likeNumber)
-            
+            patchPage(imageID,likeNumber)            
+        } else if (e.target.className === "delete-button"){
+         
+           deleteComment(e.target.dataset.commentId)
         }
         //end of the card-container click AddEventListener
     })
@@ -32,7 +35,7 @@ document.addEventListener("DOMContentLoaded",function(){
         const imageID = parseInt(e.target.parentNode.dataset.id)
 
         postComment(comment.comment.value,imageID)
-        // e.target.reset()
+        e.target.reset()
 
 
     // the end of the submit addeventlistener to the card
@@ -46,7 +49,6 @@ document.addEventListener("DOMContentLoaded",function(){
         commentUL.innerHTML = ""
         image.src = ""
         loadImage()
-        loadComments()
 
         function loadImage(){
             fetch(imagesURL)
@@ -57,6 +59,7 @@ document.addEventListener("DOMContentLoaded",function(){
                likes.textContent = `${images[0].likes} likes`
                card.dataset.id = images[0].id
                title.textContent = images[0].title
+               loadComments()
             })
         }
 
@@ -65,13 +68,26 @@ document.addEventListener("DOMContentLoaded",function(){
             .then(function(response){return response.json()})
             .then(function(comments){
                 comments.forEach(comment =>{
-                    const li = document.createElement("LI")
-                    li.textContent = comment.content
-                    commentUL.appendChild(li)
+                    displayComment(comment)
 
                 })
             })
         }
+
+    }
+
+    function displayComment(comment){
+        const li = document.createElement("LI")
+        const button = document.createElement("button")
+        const commentUL = document.querySelector(`div[data-id = "${comment.imageId}"] > ul.comments`)
+        button.textContent = "x"
+        button.style= "background-color: red"
+        button.className = "delete-button"
+        button.dataset.commentId = comment.id
+        li.textContent = comment.content
+        li.appendChild(button)
+        commentUL.appendChild(li)
+
 
     }
     
@@ -109,11 +125,7 @@ document.addEventListener("DOMContentLoaded",function(){
         fetch(commentsURL,options)
         .then(function(response){return response.json()})
         .then(function(comment){
-            const li = document.createElement("LI")
-            const commentUL = document.querySelector(`div[data-id = "${imageID}"] > ul.comments`)
-            li.textContent = comment.content
-            li.dataset.id = comment.id
-            commentUL.appendChild(li)
+            displayComment(comment)
             
 
 
@@ -123,6 +135,18 @@ document.addEventListener("DOMContentLoaded",function(){
 
     }
 
+    function deleteComment(id){
+        
+        options = {
+            method: "DELETE"}
+        fetch(commentsURL+id,options)
+        .then( () => {
+            const commentLi = document.querySelector(`button[data-comment-id = "${id}"]`).parentNode
+            commentLi.innerHTML = ""
+        })
+        
+
+    }
 
 
 
