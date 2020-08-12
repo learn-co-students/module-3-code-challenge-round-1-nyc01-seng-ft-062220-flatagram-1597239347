@@ -5,10 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
     
     fetch(imageURL)
     .then(response => response.json())
-    .then(images => {
-        images.forEach(renderPost)
-        
-    })
+    .then(image => {
+            image.forEach(image => renderPost(image))
+            console.log(image)
+        })
 
     fetch(commentURL)
     .then(response => response.json())
@@ -18,14 +18,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //fetch the comments and images they're on seperate URLs and render them to the post 
 
-    const renderPost = (images, comments) => {
-       const image = document.querySelector("body > div > div > img").src
+    const renderPost = (image, comments) => {
+        image.forEach(imageArray => )
+       const imagePost = document.getElementsByClassName("image").src
        const title = document.querySelector("body > div > div > h2")
        const likes = document.querySelector("body > div > div > div > span")
        const commentUl = document.getElementById('comments')
        const commentLi = document.createElement('li')
        commentLi.innerText = comments.content
-       image.innerText = images.image
+       imagePost.src = images.image
        console.log(image)
 
 
