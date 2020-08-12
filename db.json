@@ -3,7 +3,7 @@
     {
       "id": 1,
       "title": "Woofing those bugs away",
-      "likes": 15,
+      "likes": 16,
       "image": "./assets/coder-dog.png"
     }
   ],
@@ -22,6 +22,21 @@
       "id": 3,
       "imageId": 1,
       "content": "Woof!"
+    },
+    {
+      "imageId": 1,
+      "content": "OMG! this dog is aceing this coding challenge",
+      "id": 4
+    },
+    {
+      "imageId": 1,
+      "content": "I totally think Luis ace'd this challenge",
+      "id": 5
+    },
+    {
+      "imageId": 1,
+      "content": "yep, i totally think he did, woof woof",
+      "id": 6
     }
   ]
 }

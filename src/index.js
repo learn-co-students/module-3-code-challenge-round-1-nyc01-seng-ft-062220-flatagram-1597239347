@@ -29,11 +29,9 @@ document.addEventListener("DOMContentLoaded",function(){
 
         e.preventDefault()
         const comment = e.target
-        const li = document.createElement("LI")
-        let UL = document.querySelector("ul.comments")
-        li.textContent = comment.comment.value
-        commentUL.appendChild(li)
-        console.log(comment)
+        const imageID = parseInt(e.target.parentNode.dataset.id)
+
+        postComment(comment.comment.value,imageID)
         // e.target.reset()
 
 
@@ -97,6 +95,33 @@ document.addEventListener("DOMContentLoaded",function(){
 
     }
     
+    function postComment(text,imageID){
+        const body = {imageId: imageID, content: text},
+        options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+            },
+            body: JSON.stringify(body)
+
+        }
+        fetch(commentsURL,options)
+        .then(function(response){return response.json()})
+        .then(function(comment){
+            const li = document.createElement("LI")
+            const commentUL = document.querySelector(`div[data-id = "${imageID}"] > ul.comments`)
+            li.textContent = comment.content
+            li.dataset.id = comment.id
+            commentUL.appendChild(li)
+            
+
+
+        })
+
+
+
+    }
 
 
 
