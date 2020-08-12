@@ -108,7 +108,6 @@ document.addEventListener("DOMContentLoaded", e=> {
     fetch(urlImages + objectId, packet)
       .then(res => res.json())
       .then(fetchImage())
-    fetchImage()
   }
 
   const createComment = (button) => {
