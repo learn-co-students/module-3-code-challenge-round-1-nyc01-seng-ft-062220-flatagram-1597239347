@@ -29,9 +29,7 @@ const parseImageToHtml = (dogImage) => {
     const newTitle = dogImage.title
     const title = document.querySelector(".title")
     title.innerText = newTitle
-
 }
-
 
 const clickHandler = () => {
     let counter = 0
@@ -43,7 +41,7 @@ const clickHandler = () => {
                 likes.innerHTML=`
                 ${counter} likes
                 `
-            // debugger
+            // does not persist upon page reload
         }
     })
 }
