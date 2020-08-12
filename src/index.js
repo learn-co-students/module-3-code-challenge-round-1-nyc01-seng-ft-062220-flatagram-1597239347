@@ -1,4 +1,11 @@
-// document.addEventListener("DOMEventLoaded", init)
+/*
+document.addEventListener("DOMEventLoaded", init)
+
+    const init = () => {
+        getPost();
+        clickHandler();
+    };
+*/
 
 const BASE_URL = "http://localhost:3000/",
       IMAGES_URL = "images/",
@@ -22,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    const updatePost = async (postObj, currentCard) => {
+    const updatePost = async (postObj) => {
         url = BASE_URL + IMAGES_URL + 1;
 
         const options = {
@@ -80,14 +87,13 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const clickHandler = () => {
-
         document.addEventListener("submit", e => {
             e.preventDefault();
             const commentForm = e.target,
                   commentField = commentForm.comment;
 
             addCommentToPost(commentField.value, commentForm.parentElement.querySelector(".comments"));
-            commentForm.reset()
+            commentForm.reset();
 
         });
 
