@@ -76,11 +76,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
+    const addCommentToPost = (comment) => {
+        console.log(comment)
+    }
+
     const clickHandler = () => {
 
         document.addEventListener("submit", e => {
             e.preventDefault();
-            console.log("You pressed Submit")
+            const commentForm = e.target,
+                  commentField = commentForm.comment;
+
+            addCommentToPost(commentField.value);
+
         });
 
 
