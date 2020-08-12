@@ -22,19 +22,16 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             let data = await response.json();
             renderPost(data);
-            // parseComments(data.comments)
         }
     }
 
     const parseComments = (postComments, currentCommentSection) => {
-        for (const post of postComments) {
-            renderComments(post, currentCommentSection);
+        currentCommentSection.innerHTML = "";
+        for (const comment of postComments) {
+            const li = document.createElement("li");
+            li.textContent = comment.content;
+            currentCommentSection.appendChild(li);
         }
-    }
-
-
-    const renderComments = (postCommentObj, currentCommentSection) => {
-        console.log(currentCommentSection)
     }
 
     const renderPost = (postObj) => {
@@ -51,8 +48,8 @@ document.addEventListener("DOMContentLoaded", () => {
         likesOnCard.textContent = `${postObj.likes} likes`;
 
         // comment properties
-        const commentSection = divCard.children[3]
-        parseComments(postObj.comments, commentSection)
+        const commentSection = divCard.children[3];
+        parseComments(postObj.comments, commentSection);
     }
 
    
