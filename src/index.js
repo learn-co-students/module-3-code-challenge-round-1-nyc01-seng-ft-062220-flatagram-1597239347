@@ -20,6 +20,11 @@ document.addEventListener("DOMContentLoaded", e=> {
   const renderImage = (object) => {
     const containerDiv = document.getElementById("image-container") //fix selector if time
     const objectDiv = document.createElement("div")
+
+    while(containerDiv.firstChild){
+      containerDiv.removeChild(containerDiv.lastChild)
+    }
+
     objectDiv.dataset.id = object.id
     objectDiv.innerHTML = `
         <h2 class="title">${object.title}</h2>
@@ -42,7 +47,6 @@ document.addEventListener("DOMContentLoaded", e=> {
     `
 
     //render heart button here and append to object div
-    containerDiv.innerHTML = ""
     containerDiv.append(objectDiv)
     fetchComments()
   }
@@ -54,16 +58,18 @@ document.addEventListener("DOMContentLoaded", e=> {
   }
 
   const renderComments = (comment, containerDiv, ObjectId) => {
-
     const containerUl = document.querySelector(".comments")
     const commentLi = document.createElement("li")
     commentLi.textContent = comment.content
     containerUl.append(commentLi)
-
   }
 
   const submitHandler = () => {
-    document.addEventListener("submit")
+    document.addEventListener("submit", e=> {
+      e.preventDefault()
+      const button = e.target
+      createComment(button)
+    })
 
 
   }
@@ -102,14 +108,35 @@ document.addEventListener("DOMContentLoaded", e=> {
     fetch(urlImages + objectId, packet)
       .then(res => res.json())
       .then(fetchImage())
+    fetchImage()
+  }
 
+  const createComment = (button) => {
+    const form = button
+    const commentText = form.comment.value
+
+    const data = {
+      imageId: 1,
+      content: commentText
+    }
+
+    const packet = {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "accept": "application/json"
+      },
+      body: JSON.stringify(data)
+    }
+
+    fetch(urlComments, packet)
+      .then(res => res.json())
+      .then(fetchImage())
   }
 
 
-
   fetchImage()
-  fetchComments()
+  submitHandler()
   clickHandler()
-
 
 })
