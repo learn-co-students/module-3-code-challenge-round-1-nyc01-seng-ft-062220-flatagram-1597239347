@@ -5,6 +5,7 @@ const imagesURL = "http://localhost:3000/images/1"
 
 document.addEventListener("DOMContentLoaded", () => {
     const imageCard = document.querySelector('.image-card')
+    const commentForm = document.querySelector('.comment-form')
 
     //render 
     const getImage = () => {
@@ -28,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const comments = image.comments 
 
         const commentContainer = document.querySelector('.comments')
+        commentForm.dataset.id = image.id
         commentContainer.innerHTML = ""
         for(const comment of comments){
             let commentLi = document.createElement('li')
@@ -35,35 +37,63 @@ document.addEventListener("DOMContentLoaded", () => {
             commentLi.innerHTML = comment.content
             commentContainer.append(commentLi)
         }  
-    }
 
+        const likeBtn = document.querySelector('.like-button')
+        likeBtn.dataset.id = image.id
+    }
+    
     const likeHandler = () => {
         document.addEventListener('click', e => {
             if(e.target.matches('.like-button')){
                 let likeBtn = e.target
-                let likes = likeBtn.previousElementSibling
+                const likes = likeBtn.previousElementSibling
                 likes.innerHTML = parseInt(likes.innerHTML) + 1
-
-                const options = {
+                let newLikes = likes.innerHTML            
+            
+                fetch(imagesURL, {
                     method: 'PATCH',
                     headers: {
                         'content-type': 'application/json',
                         accepts: 'application/json'
                     },
-                    body:JSON.stringify(likes)
-                }
-                
-                fetch(imagesURL, options)
+                    body:JSON.stringify({likes: newLikes})
+                })
                 .then(resp => resp.json())
-                .then(console.log())
-                
+                .then(data => console.log(data))
             }
-            
         })
     }
 
+    const formHandler = () => {
+        document.addEventListener('submit', e => {
+            if(e.target.matches('.comment-button')){
+                console.log(e)
+                e.preventDefault()
+                let input = commentForm.querySelector('.comment-input')
+                
+                    fetch(commentsURL, {
+                        method: 'POST', 
+                        headers: {
+                            "content-type": "application/json", 
+                            "accepts": "application/json"
+                        },
+                        body: JSON.stringify({
+                            imageId: 1,
+                            content:`${input}`
+                        })
+                    })
+                    .then(resp => resp.json())
+                    .then(data => {
+                        getImage(data)
+                    })
+            }
+        })
+    }
+    
+    formHandler()
     likeHandler()
     getImage()
+    
 })
 
 
@@ -71,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 √1. See the image received from the server, including its title, likes and comments when the page loads
 
-2. Click on the heart icon to increase image likes, and still see them when I reload the page
+√2. Click on the heart icon to increase image likes, and still see them when I reload the page
 
 
 3. Add a comment (no persistance needed)
