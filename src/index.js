@@ -2,8 +2,25 @@
 
 BASE_URL = "http://localhost:3000/images/1"
 COMMENT_URL = "http://localhost:3000/comments/"
+let commentIdCounter = 0
 
 document.addEventListener("DOMContentLoaded", () => {
+
+    const setCommentIdCounter = () => {
+        const comments = document.querySelectorAll("ul.comments > li")
+        let tempId = 0
+        for (const comment of comments) {
+            if(parseInt(comment.dataset.commentId) > tempId) {
+                tempId = parseInt(comment.dataset.commentId)
+            }
+        }
+        commentIdCounter = tempId
+    }
+
+    const incrementCommentIdCounter = () => {
+        commentIdCounter++
+        return commentIdCounter
+    }
 
     const getPost = () => {
         fetch(BASE_URL)
@@ -26,8 +43,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const newLi = document.createElement("li")
             newLi.dataset.commentId = post.comments[i].id
             newLi.innerText = post.comments[i].content
+            addDeleteButton(newLi)
             document.querySelector("ul.comments").append(newLi)
         }
+        setCommentIdCounter()
     }
 
     const renderLike = (likeSpan) => {
@@ -49,14 +68,22 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch(BASE_URL, configObj)
     }
 
+    const addDeleteButton = (commentLi) => {
+        const newDelete = document.createElement("button")
+        newDelete.className = "delete-button"
+        newDelete.innerText = "Delete"
+        commentLi.append(newDelete)
+    }
+
     const renderComment = (commentForm) => {
         const newLi = document.createElement("li")
-        newLi.dataset.commentId = document.querySelectorAll("ul.comments > li").length
+        newLi.dataset.commentId = incrementCommentIdCounter
         newLi.innerText = commentForm.querySelector("input.comment-input").value
+        addDeleteButton(newLi)
         document.querySelector("ul.comments").append(newLi)
 
         commentObj = {
-            "id": document.querySelectorAll("ul.comments > li").length,
+            "id": parseInt(newLi.dataset.commentId),
             "imageId": parseInt(document.querySelector("div.image-card").dataset.postId),
             "content": commentForm.querySelector("input.comment-input").value
         }
@@ -75,6 +102,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const deleteComment = (comment) => {
+
+        comment.remove()
 
         configObj = {
             method: "DELETE",
@@ -97,6 +126,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 e.preventDefault()
                 renderComment(button.parentNode)
                 button.parentNode.querySelector("input.comment-input").value = ""
+            } else if (button.matches("button.delete-button")) {
+                deleteComment(button.parentNode)
             }
         })
     }
@@ -114,5 +145,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // const newPost = returnPost(getPost())
     getPost()
     clickHandler()
+    // setCommentIdCounter()
     // submitHandler()
 })

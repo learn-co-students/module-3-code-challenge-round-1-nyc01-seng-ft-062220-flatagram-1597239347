@@ -14,11 +14,6 @@
       "content": "What a cute dog!"
     },
     {
-      "id": 2,
-      "imageId": 1,
-      "content": "He's got a nose for bugs!"
-    },
-    {
       "id": 3,
       "imageId": 1,
       "content": "Woof!"
@@ -42,6 +37,11 @@
       "id": 7,
       "imageId": 1,
       "content": "test7"
+    },
+    {
+      "id": 8,
+      "imageId": 1,
+      "content": "arf"
     }
   ]
 }
