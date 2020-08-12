@@ -12,17 +12,18 @@
 // Click on the heart icon to increase image likes, and still see them when I reload the page
 
     // √1. find the heart icon
-    // 2. add to the heart icont total count
+    // √2. add to the heart icont total count
 
 // Add a comment (no persistance needed)
 
-    // 1. find the form content
-    // 2. read the form content and update html
+    // 1. √find the form content
+    // 2. √read the form content and update html
 
 
 const COMMENT_URL = "http://localhost:3000/comments"
 const IMG_URL = "http://localhost:3000/images/"
 const IMG_W_CMMNTS = "http://localhost:3000/images/1?_embed=comments"
+let currentLikes = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("LOADED")
@@ -39,14 +40,13 @@ document.addEventListener("DOMContentLoaded", () => {
      
 
               imgDivCard.innerHTML = ''  
-
-
+              imgDivCard.dataset.imgId = image.id
 
         imgDivCard.innerHTML = `
             <h2 class="title">${image.title}</h2>
             <img class='image-container' src="${image.image}" />
                 <div class="likes-section">
-                    <span class="likes">0 likes</span>
+                    <span class="likes">${currentLikes} likes</span>
                     <button class="like-button">♥</button>
                 </div>
             <ul class="comments">
@@ -80,14 +80,26 @@ document.addEventListener("DOMContentLoaded", () => {
         document.addEventListener('click', e => {
             let likeBtn = document.querySelector(".like-button")
             if (e.target.className === "like-button") {
-                // console.log("yay")
             
-                let likesTarget = likeBtn.parentNode.querySelector(".likes").textContent.split(' ')
+                let likesTargetId = likeBtn.parentNode.parentNode.dataset.imgId
+                    likesNum = likeBtn.parentElement.querySelector(".likes").textContent.split(' ')[0]
 
-                // console.log(likesTarget)
+                    let updatedLikes = currentLikes++
+                        likesNum = currentLikes
+                const options = {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        likes: `${currentLikes}`
+                    })
 
-                let updatedLikes = parseInt(likesTarget[0]++)
-                console.log(updatedLikes)
+                }
+                fetch(IMG_URL+likesTargetId, options)
+                    .then(response => response.json())
+                    getImage()
             }
         })
     }
@@ -96,8 +108,15 @@ document.addEventListener("DOMContentLoaded", () => {
     commentHandler=()=> {
         document.addEventListener("submit", e => {
             e.preventDefault()
-            let commentText = document.querySelector('.comment-form')
-                console.log(commentText.innerHTML.innerTEXT)
+            let imgComments = document.querySelector('.comments')
+            let commentText = document.querySelector('.comment-input').value
+            let commentLi = document.createElement('li');
+
+            commentLi.textContent = commentText
+
+            imgComments.appendChild(commentLi)
+                
+
 
         })
     }
