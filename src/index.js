@@ -25,6 +25,28 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    const updatePost = async (postObj) => {
+        url = BASE_URL + IMAGES_URL + 1;
+
+        const options = {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify(postObj)
+        }
+
+        let response = await fetch(url, options);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        } else {
+            let data = await response.json();
+            console.log(data);
+        }
+    }
+
     const parseComments = (postComments, currentCommentSection) => {
         currentCommentSection.innerHTML = "";
         for (const comment of postComments) {
@@ -55,6 +77,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const clickHandler = () => {
         document.addEventListener("click", e => {
             if (e.target.textContent === FULL_HEART) {
+                const divLikes = e.target.closest(".likes-section"),
+                      likesOnCard = divLikes.querySelector("span");
+                let currentLikesCount = parseInt(likesOnCard.textContent.split(" ")[0]);
+                currentLikesCount++
+                debugger;
+                likesObj = {
+                    likes: currentLikesCount
+                };
+                updatePost(likesObj)
                 console.log("Add Likes")
             }
         })
