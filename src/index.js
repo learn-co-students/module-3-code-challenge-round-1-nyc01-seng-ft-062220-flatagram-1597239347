@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", e=> {
         <div class="likes-section">
         <span class="likes">${object.likes} Likes</span>    
         <button class="like-button">♥</button>
+        <button class="dislike-button"> :( dislike </button>
         </div>
         <ul class="comments"></ul>
         <form class="comment-form">
@@ -86,6 +87,9 @@ document.addEventListener("DOMContentLoaded", e=> {
       } else if (e.target.matches("button.delete")) {
         const button = e.target
         deleteComment(button)
+      } else if (e.target.matches("button.dislike-button")){
+        const button = e.target
+        removeLike(button)
       }
     })
   }
@@ -103,6 +107,33 @@ document.addEventListener("DOMContentLoaded", e=> {
     let likesNumber = parseInt(likesValue)
 
     const data = {likes: likesNumber += 1}
+    const packet = {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+        "accept" : "application/json"
+      },
+      body: JSON.stringify(data)
+    }
+
+    fetch(urlImages + objectId, packet)
+      .then(res => res.json())
+      .then(fetchImage())
+  }
+
+  const removeLike = (button) => {
+    //get id of object
+    //get current like number
+    //add 1
+    //patch server with like number
+
+    const objectId = button.parentElement.parentElement.dataset.id
+    const likesDiv = button.parentElement
+    const likesSpan = likesDiv.querySelector("span")
+    const likesValue = likesSpan.textContent
+    let likesNumber = parseInt(likesValue)
+
+    const data = {likes: likesNumber -= 1}
     const packet = {
       method: "PATCH",
       headers: {
