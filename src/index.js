@@ -52,8 +52,17 @@ document.addEventListener("DOMContentLoaded", () => {
         parseComments(postObj.comments, commentSection);
     }
 
+    const clickHandler = () => {
+        document.addEventListener("click", e => {
+            if (e.target.textContent === FULL_HEART) {
+                console.log("Add Likes")
+            }
+        })
+
+    }
    
-    getPost()
+    getPost();
+    clickHandler();
 });
 
 /* 
