@@ -22,7 +22,7 @@ DONE- Event listener on submit button that adds comment
 */
 
 document.addEventListener("DOMContentLoaded",function(){
-    console.log("dom loaded!")
+    
     const imageUrl = "http://localhost:3000/images/1"
 
     const imgTag = document.querySelector(".image")
@@ -65,44 +65,46 @@ document.addEventListener("DOMContentLoaded",function(){
         })
     }
 
-    //come back and put this in a click handler + call at bottom of script
-    document.addEventListener("click", function(e){
-        if(e.target.matches(".like-button")){
-            let currentLikes = parseInt(likesSpan.textContent.split(" ")[0])
-            newLikeCount = currentLikes + 1
-            
-            configObj = {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                  },
-                body: JSON.stringify({likes: newLikeCount})
+    function clickHandler(){
+        document.addEventListener("click", function(e){
+            if(e.target.matches(".like-button")){
+                let currentLikes = parseInt(likesSpan.textContent.split(" ")[0])
+                newLikeCount = currentLikes + 1
+                
+                configObj = {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({likes: newLikeCount})
+                }
+                
+                fetch(imageUrl, configObj)
+                .then(response => response.json())
+                .then(updatedObj => { 
+                    updatedLikeCount = updatedObj.likes
+                    likesSpan.textContent = `${updatedLikeCount} Likes` })
+
             }
-            
-            fetch(imageUrl, configObj)
-            .then(response => response.json())
-            .then(updatedObj => { 
-                updatedLikeCount = updatedObj.likes
-                likesSpan.textContent = `${updatedLikeCount} Likes` })
+        })
+    }
 
-        }
-    })
+    function submitHandler(){
+        document.addEventListener("submit", function(e){
+            e.preventDefault()
 
+            let commToAdd = e.target.comment.value
+            newCommentLi = document.createElement("li")
+            newCommentLi.textContent = commToAdd
 
-    document.addEventListener("submit", function(e){
-        e.preventDefault()
-
-        let commToAdd = e.target.comment.value
-        newCommentLi = document.createElement("li")
-        newCommentLi.textContent = commToAdd
-
-        commentsUl.append(newCommentLi)
-        e.target.reset()
-
-    })
-
+            commentsUl.append(newCommentLi)
+            e.target.reset()
+        })
+    }
 
 
     getImage()
+    clickHandler()
+    submitHandler()
 })
