@@ -7,7 +7,7 @@
 
 document.addEventListener("DOMContentLoaded", function(e) {
     const postURL = "http://localhost:3000/images/1"
-    // const postContainer = document.querySelector(".image-card")
+    const postContainer = document.querySelector(".image-card")
 
     const fetchImage = () => {
         fetch(postURL)
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
             title.textContent = imageObj.title
             image.src = imageObj.image
             likes.textContent = imageObj.likes + ' Likes'
-            = imageObj.id
+            postContainer.id = imageObj.id
             comments.innerHTML = ''
             //console.log(imageObj.comments[1])
             for (let i = 0; i < imageObj.comments.length; i++) {
@@ -64,7 +64,27 @@ document.addEventListener("DOMContentLoaded", function(e) {
         const clickHandler = () => {
             document.addEventListener('click', function(e) {
                 if(e.target.className === 'like-button'){
-                    console.log(e.target)
+                    //console.log(e.target)
+                    //let id = event.target.parentNode.id
+                    const likeButton = e.target
+                    const likedNumber = likeButton.parentElement//.children[0]//.innerText
+                    const likeSpan = likedNumber.querySelector("span")
+                    //console.log(likeSpan.textContent)
+                    const newLikes = parseInt(likeSpan.textContent) + 1 + " Likes"
+                    //console.log(newLikes)
+                    
+                    fetch(postURL, {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accepts": "application/json"
+                        },
+                        body: JSON.stringify({
+                            'likes': newLikes
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(imageObj => likeSpan.textContent = imageObj.likes)
                   
                 }
             })
