@@ -1,8 +1,7 @@
 // write your code here
 /*
 
-
-PLAN
+- - PLAN - -
 DONE- Domcontentloaded listener
 DONE- Get  image (title, likes, image)
     DONE- Render to the DOM
@@ -25,9 +24,10 @@ Advanced Deliverables
     - add an if else statement in click lisenter
         - add logic that does reverse of like button (decreases like count and renders pessamistically)
 - Make new comments persist
-    - fetch post to db in submit event listener - render pessamistically
-    - 
+    -  post req to db in submit event listener - render pessamistically
 - Delete a comment
+    - Add delete button to each comment
+    - Add event listner (delegation) - when clicked delete from DB + clear it from DOM pessamistically
 
 */
 
