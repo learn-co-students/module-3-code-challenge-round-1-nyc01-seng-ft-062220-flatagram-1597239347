@@ -19,11 +19,23 @@ const baseUrl = `http://localhost:3000`
 
 document.addEventListener(`DOMContentLoaded`, e => {
     const commentUl = document.querySelector(`.comments`)
+    // const downVote = document.createElement(`button`)
+    // const likesSection = imageContainer.querySelector(`.likes-section`)
     const renderImageData = imageData => {
         const imageContainer = document.querySelector(`.image-container`)
         const title = imageContainer.querySelector(`.title`)
         const image = imageContainer.querySelector(`img`)
         const likes = imageContainer.querySelector(`span`)
+        const likesSection = imageContainer.querySelector(`.likes-section`)
+
+        console.log(!imageContainer.querySelector(`#down-vote`))
+        if (!imageContainer.querySelector(`#down-vote`)) {
+            const downVote = document.createElement(`button`)
+
+            downVote.id = `down-vote`
+            downVote.innerText = `down vote`
+            likesSection.append(downVote)
+        }
         
         imageContainer.dataset.id = imageData.id
         imageContainer.dataset.likes = imageData.likes
@@ -40,6 +52,10 @@ document.addEventListener(`DOMContentLoaded`, e => {
         commentLi.innerText = comment
         commentUl.append(commentLi)
     }
+
+    // downVote.id = `down-vote`
+    // downVote.innerText = `down vote`
+    // likesSection.append(downVote)
     
     commentUl.innerHTML = ``
 
@@ -53,7 +69,7 @@ document.addEventListener(`DOMContentLoaded`, e => {
             const id = imageContainer.dataset.id
             const likes = parseInt(imageContainer.dataset.likes) + 1
 
-            fetch(baseUrl + `/images/1`, {
+            fetch(baseUrl + `/images/${id}`, {
                 method: `PATCH`,
                 headers: {
                     "content-type": `application/json`,
@@ -63,6 +79,23 @@ document.addEventListener(`DOMContentLoaded`, e => {
             })
             .then(r => r.json())
             .then(imageData => renderImageData(imageData))  
+        }
+
+        if (e.target.matches(`#down-vote`)) {
+            const imageContainer = e.target.parentNode.parentNode.parentNode
+            const id = imageContainer.dataset.id
+            const likes = parseInt(imageContainer.dataset.likes) - 1
+
+            fetch(baseUrl + `/images/${id}`, {
+                method: `PATCH`,
+                headers: {
+                    "content-type": `application/json`,
+                    accept: `application/json`
+                },
+                body: JSON.stringify({likes: likes})
+            })
+            .then(r => r.json())
+            .then(imageData => renderImageData(imageData))
         }
         
     })
