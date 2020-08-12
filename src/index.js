@@ -10,12 +10,12 @@ const imgTag = imgCardChildren[1]
 let imgData = {}
 
 
-    const getImages = () => {
+    const getImage = () => { 
         fetch("http://localhost:3000/images/1")
         .then(resp => resp.json())
-        .then(resp => {
-            renderImg(resp)
-            imgData = resp     
+        .then(image => {
+            renderImg(image)
+            imgData = image     
         })
     }
 
@@ -29,28 +29,35 @@ let imgData = {}
         commentsArray.forEach(renderComment)
 
         likesSectionDiv.addEventListener("click", changeLikes)
-
-        commentForm.dataset.imageId = imgObj.id
         commentForm.addEventListener("submit", submitComment)
     }
 
-    const renderComment = (comment) => {
+    const renderComment = (comment) => { 
             const newComment = document.createElement("li")
             newComment.innerText = comment
             commentsUl.append(newComment)
+
+            const deleteButton = document.createElement("button")
+            deleteButton.innerText = `Delete`
+            newComment.append(deleteButton)
+            deleteButton.addEventListener("click", deleteComment)
         }
+
+    const deleteComment = (e) => { 
+        fetch("http://localhost:3000/comments/1", {method: "DELETE"})
+        // successfully updates database but still have to update DOM
+    }
     
-    const submitComment = (e) => { //make comments persist
+    const submitComment = (e) => { 
         e.preventDefault()
         const commentText = e.target.children[0].value
+        renderComment(commentText) //comment text to be rendered to the page
+
         let newComment = {
             id: 1, 
             imageId: 1, 
-            content: commentText}
-        imgData.comments.push(newComment)
-        console.log(imgData)
-        renderComment(commentText)
-        commentForm.reset()
+            content: commentText
+        }
 
         const option = {
             method: "POST",
@@ -61,9 +68,12 @@ let imgData = {}
             body: JSON.stringify(newComment)
         }
 
-        fetch("http://localhost:3000/comments", option) //getting error about an unexpected token
+        fetch("http://localhost:3000/comments", option)
         .then(resp => resp.json())
         .then(console.log)
+
+        imgData.comments.push(newComment) //updating the imgData object I created on line 10
+        commentForm.reset()
     }
 
     const changeLikes = (e) => {
@@ -94,5 +104,5 @@ let imgData = {}
 
 
 
-    getImages()
+    getImage()
 })
