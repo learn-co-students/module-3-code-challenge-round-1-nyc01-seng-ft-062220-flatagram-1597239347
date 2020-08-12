@@ -3,7 +3,10 @@ document.addEventListener("DOMContentLoaded", () => {
     //global variables
     const imageURL = "http://localhost:3000/images"
     const CommentURL = "http://localhost:3000/comments"
-    const imageCard = document.getElementsByClassName("image-card")
+    //const imageCard = document.getElementsByClassName("image-card")
+    const comments = document.querySelector(".comments")
+    comments.innerHTML = "" //remove the default comments
+
     let allImages = []
     let allComments = []
 
@@ -65,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const li = document.createElement("li")
         li.dataset.image = comment.id
         li.innerText = comment.content
-
+        comments.append(li)
     }
 
     //render images using data for image API
@@ -73,10 +76,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const title = document.querySelector(".title")
         const image = document.querySelector(".image")
         const likes = document.querySelector(".likes")
-        const comments = document.querySelector(".comments")
-        console.log(comments)
+
         //add the list of comments
-        //allComments.forEach(comment => createList(comment)) 
+        allComments.forEach(comment => createList(comment)) 
+
         title.innerText = imageObj.title
         title.id = imageObj.id
         image.src = imageObj.image
