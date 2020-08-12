@@ -11,7 +11,9 @@ document.addEventListener("DOMContentLoaded", ()=> {
     const url = 'http://localhost:3000/images/1'
     let dogLikes = document.querySelector('.likes')
     const likeButton = document.querySelector('.like-button')
-    const leaveDoggoLove = document.querySelector('.comments-form')
+    let dogComments = document.querySelector('.comments')
+    const leaveDoggoLove = document.querySelector('.comment-form')
+    console.log(leaveDoggoLove)
     
 
     function getDoggo(){
@@ -30,7 +32,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
         dogTitle.innerText = doggo.title
         dogImage.src = doggo.image
         dogLikes.innerText = doggo.likes + ' Likes'
-        let dogComments = document.querySelector('.comments')
         dogComments.innerText = ""
 
         allComments.forEach(comment => {
@@ -53,15 +54,15 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
     })
     
-    
     leaveDoggoLove.addEventListener('submit', function(e){
         e.preventDefault()
-        let givingDoggoLove = document.querySelector('.comment-input')
-        
+        const givingDoggoLove = document.querySelector('.comment-input')
+        // console.log(leaveDoggoLove)
+
         let newLoveLi = document.createElement('li')
         newLoveLi.innerText = givingDoggoLove.value
         dogComments.append(newLoveLi)
-
+        leaveDoggoLove.reset()
     })
 
 
