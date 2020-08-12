@@ -3,6 +3,10 @@
 - See the image received from the server, including its title, likes and comments when the page loads
 - Click on the heart icon to increase image likes, and still see them when I reload the page
 - Add a comment (no persistance needed)
+- Downvote an image
+- Still see the comments written after reloading the page
+  > For this one, you want to make a POST request to the `/comments` endpoint.
+  > Your comment object must have an `imageId` key with a value of `1` for it to work.
 */
 
 /*
@@ -13,9 +17,11 @@
 */
 
 document.addEventListener("DOMContentLoaded", e=>{
-
-    let page_link = "http://localhost:3000/images/1"
-    let ul = document.querySelector(".comments")
+    
+    const page_link = "http://localhost:3000/images/1"
+    const comment_link = "http://localhost:3000/comments"
+    const ul = document.querySelector(".comments")
+    const button = document.querySelector(".like-button")
 
     fetch(page_link)
     .then(resp =>resp.json())
@@ -45,27 +51,30 @@ document.addEventListener("DOMContentLoaded", e=>{
         renderComments()
     }//renderPage
 
-    let button = document.querySelector(".like-button")
-    button.addEventListener("click", e=>{
+   function upVoteImage(){
+        button.addEventListener("click", e=>{
 
-        let span = document.querySelector(".likes")
-        let likesNumber = parseInt(span.innerText.split(" ")[0])
-        let newLikes = likesNumber+1
-        
-        let options = {
-            method: "PATCH",
-            headers: {
-                "content-type": "application/json",
-                "accept": "application/json"
-            },
-            body: JSON.stringify({likes: newLikes})
-        }
-        fetch(page_link, options)
-        .then(resp =>{
-            span.innerText = `${newLikes} likes`
-        })
+            let span = document.querySelector(".likes")
+            let likesNumber = parseInt(span.innerText.split(" ")[0])
+            let newLikes = likesNumber+1
+            
+            let options = {
+                method: "PATCH",
+                headers: {
+                    "content-type": "application/json",
+                    "accept": "application/json"
+                },
+                body: JSON.stringify({likes: newLikes})
+            }
+            fetch(page_link, options)
+            .then(resp =>{
+                span.innerText = `${newLikes} likes`
+            })
 
-    })//button EventListener
+        })//button EventListener
+    }//f upVoteImage
+
+    upVoteImage()
 
     let form = document.querySelector(".comment-form") 
     form.addEventListener("submit", e=>{
@@ -78,7 +87,6 @@ document.addEventListener("DOMContentLoaded", e=>{
         ul.appendChild(li)
         form.reset()
         
-        let comment_link = "http://localhost:3000/comments"
 
         let body = {
             imageId:1,
@@ -97,5 +105,25 @@ document.addEventListener("DOMContentLoaded", e=>{
 
     })//formEventListener
 
+    function downVoteImage(){
+
+        let downVoteButton = document.createElement('button')
+        downVoteButton.innerHTML = `♡`
+        downVoteButton.className ="unlike"
+        
+        let likeSectionDiv = document.querySelector(".likes-section")
+        likeSectionDiv.insertBefore(downVoteButton, button)
+         
+        let downVote = document.querySelector(".unlike")
+        downVote.addEventListener("click", e=>{
+    
+            let span = document.querySelector(".likes")
+            let likesNumber = parseInt(span.innerText.split(" ")[0])
+            let newLikes = likesNumber-1
+            span.innerText = `${newLikes} likes`
+        })
+    }//f downVoteLikes
+
+    downVoteImage()
 
 })//DOMContentLoaded
