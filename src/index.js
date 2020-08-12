@@ -6,7 +6,7 @@
 
 document.addEventListener("DOMContentLoaded", function(e) {
     const postURL = "http://localhost:3000/images/1"
-    const postContainer = document.querySelector(".image-card")
+    //const postContainer = document.querySelector(".image-card")
 
     const fetchImage = () => {
         fetch(postURL)
@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function(e) {
             likes.textContent = imageObj.likes + ' Likes'
             //postContainer.id = imageObj.id
             comments.innerHTML = ''
-            //console.log(imageObj.comments[1])
             for (let i = 0; i < imageObj.comments.length; i++) {
                 const element = imageObj.comments[i];
                 const li = document.createElement('li')
