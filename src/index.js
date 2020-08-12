@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //global variables
     const imageURL = "http://localhost:3000/images"
     const CommentURL = "http://localhost:3000/comments"
-    //const imageCard = document.getElementsByClassName("image-card")
+    const imageCard = document.querySelector(".image-card").children[0]
     const comments = document.querySelector(".comments")
     comments.innerHTML = "" //remove the default comments
 
@@ -85,15 +85,16 @@ document.addEventListener("DOMContentLoaded", () => {
         image.src = imageObj.image
         likes.innerText = imageObj.likes
     }
-
+    
     //click event listener for the like button
     const clickHandler = () => {
         document.addEventListener("click", e => {
-            const imageId = e.target.parentElement.parentElement.children[0].id
+            
+            console.log(imageCard.id)
             const likeCount = e.target.parentElement.children[0].innerText
             if (e.target.matches(".like-button")){
                 likeUpVote = parseInt(likeCount) + 1
-                patchImage(imageId, likeUpVote) 
+                patchImage(imageCard.id, likeUpVote) 
             }
         })
 
@@ -104,8 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.addEventListener("submit", e => { 
             e.preventDefault()
             const commentText = document.querySelector(".comment-input").value
-            const imageId = document.querySelector(".image-card").children[0].id
-            addComment(parseInt(imageId), commentText)
+            addComment(parseInt(imageCard.id), commentText)
         })
 
     }
