@@ -63,8 +63,37 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         })
     }
+    /////////////CORE DELIVERABLES ^^
 
+    const likeSection = document.querySelector(".likes-section")
+    function downvote() {
+        const dislike = document.createElement('button')
+        dislike.className = "dislike-button"
+        dislike.innerText = "♡"
+        likeSection.append(dislike) 
 
+        document.addEventListener('click', e => {
+            if (e.target.className === "dislike-button") {
+
+                obj = {
+                    method: "PATCH",
+                    headers: {
+                        "Content-type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        likes: parseInt(picDataDiv.children[2].children[0].innerText) - 1
+                    })
+                }
+
+                fetch(`http://localhost:3000/images/1`, obj)
+                .then(response => response.json())
+                .then(updData => {
+                    picDataDiv.children[2].children[0].innerText = updData.likes + ' likes'
+                })
+            }
+        })
+    }
 
 
 
@@ -73,4 +102,5 @@ document.addEventListener("DOMContentLoaded", function() {
     getImageData()
     clickHandler()
     addComment()
+    downvote()
 })
