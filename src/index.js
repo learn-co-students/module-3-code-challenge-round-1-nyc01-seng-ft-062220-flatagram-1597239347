@@ -4,8 +4,10 @@ document.addEventListener("DOMContentLoaded", function(e) {
 
     //global variables
     const GET_URL = "http://localhost:3000/images/"
+    const COMMENT_URL = "http://localhost:3000/comments/"
     const IMAGE = 1
 
+    
     function getImage() {
         const imageBlock = document.querySelector(".image-card")
         imageBlock.innerHTML = ""
@@ -13,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function(e) {
         .then(res => res.json())
         .then(image => renderImage(image, imageBlock))
     }
-
 
 
     function renderImage(image, imageBlock) {
@@ -59,6 +60,14 @@ document.addEventListener("DOMContentLoaded", function(e) {
                 const imageCard = likeButton.closest("div").parentElement
                 
                 patchLikes(imageCard)
+
+            } else if (event.target.matches(".comment-button")) {
+                event.preventDefault()
+                let commentButton = event.target
+                let form = event.target.closest("form")
+                
+
+                addComment(form)
             }
         })
     }
@@ -85,11 +94,35 @@ document.addEventListener("DOMContentLoaded", function(e) {
         }
 
         fetch(GET_URL + IMAGE, options)
-        
-
+        .then(res => {
+            getImage()
+        })  
     }
 
 
+    function addComment(form) {
+        const newComment = form.querySelector("input").value
+        const postId = form.parentElement.dataset.id
+        
+        const options = {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+                "accept": "application/json"
+            },
+            body: JSON.stringify({
+                imageId: parseInt(postId),
+                content: newComment
+            })
+        }
+        
+        fetch(COMMENT_URL, options)
+        .then(res => {
+            form.reset()
+            getImage()
+        })
+
+    }
 
 
 
