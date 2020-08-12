@@ -10,61 +10,12 @@ const COMMENTS = "http://localhost:3000/comments/"
             }
         })
         document.addEventListener("submit", e =>{
-            console.log(e.target)
             e.preventDefault()
             submitComment(e.target)
         })
     }
 
-
-
-    function submitComment(comment){
-        const comments = comment[0].value
-        debugger
-        let config = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify({
-                comment: comments
-            })
-        }
-        fetch(COMMENTS, config)
-        .then(response => {
-            if (response.ok){
-              const commentUL = document.querySelector("body > div > div > ul")
-              const commentLI = document.createElement("li")
-              commentLI.innerText = comments
-              commentUL.append(comments)
-            }
-        })
-    }
-
-    function likeThisGram(likeBtn){
-       const likeCount = parseInt(likeBtn.previousElementSibling.innerText[0])
-       const addLike = likeCount + 1
-       const likes = document.querySelector("body > div > div > div > span")
-        let config = {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify({
-                likes: addLike
-            })
-        }
-        fetch(GETPATCHURL, config)
-        .then(response => {
-            if (response.ok){
-                likes.innerText = `${parseInt(likeCount + 1)} likes`
-            }
-        })
-    }
-
-    function getImages(){
+function getImages(){
         fetch(GETPATCHURL)
         .then(res => res.json())
         .then(image => {
@@ -93,34 +44,60 @@ const COMMENTS = "http://localhost:3000/comments/"
         } else {
         likes.innerText = `${image.likes} likes`
         }
-        
-
-        
     }
 
+    function likeThisGram(likeBtn){
+       const likeCount = parseInt(likeBtn.previousElementSibling.innerText[0])
+       const addLike = likeCount + 1
+       const likes = document.querySelector("body > div > div > div > span")
+        let config = {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                likes: addLike
+            })
+        }
+        fetch(GETPATCHURL, config)
+        .then(response => {
+            if (response.ok){
+                likes.innerText = `${parseInt(likeCount + 1)} likes`
+            }
+        })
+    }
 
+    function submitComment(comment){
+        const comments = comment[0].value
+        
+        let config = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                imageId: 1,
+                content: comments
+            })
+        }
+        fetch(COMMENTS, config)
+        .then(response => {
+            if (response.ok){
+            const commentUL = document.querySelector("body > div > div > ul")
+            const commentLI = document.createElement("li")
+              commentLI.innerText = comments
+              commentUL.append(comments)
+            }
+        })
+        // .then(res => res.json())
+        // // .then(res =>{
+        // //     res.
+        // // })
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
 
     clickHandler()
