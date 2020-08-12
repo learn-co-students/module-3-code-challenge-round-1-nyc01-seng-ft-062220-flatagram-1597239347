@@ -9,11 +9,8 @@ const FULL_HEART = "♥",
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    // selecting the only 'image-card' on page to incorporate server-side data
-
-
     const getPost = async () => {
-        url = BASE_URL + IMAGES_URL + 1
+        url = BASE_URL + IMAGES_URL + 1;
     
         let response = await fetch(url);
 
@@ -35,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 'Accept': 'application/json',
             },
             body: JSON.stringify(postObj)
-        }
+        };
 
         let response = await fetch(url, options);
 
@@ -44,8 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             let data = await response.json();
             renderPost(data);
-        }
-    }
+        };
+    };
 
     const parseComments = (postComments, currentCommentSection) => {
         // currentCommentSection.innerHTML = "";
@@ -53,8 +50,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const li = document.createElement("li");
             li.textContent = comment.content;
             currentCommentSection.appendChild(li);
-        }
-    }
+        };
+    };
 
     const renderPost = (postObj) => {
         const divCard = document.querySelector("div.image-card");
@@ -73,14 +70,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const commentSection = divCard.children[3];
         if (postObj.comments) {
             parseComments(postObj.comments, commentSection);
-        }
+        };
     };
 
     const addCommentToPost = (comment, currentCommentSection) => {
         const li = document.createElement("li");
         li.textContent = comment;
         currentCommentSection.appendChild(li);
-    }
+    };
 
     const clickHandler = () => {
 
@@ -107,33 +104,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 updatePost(likesObj)
             }
         });
-
     };
    
     getPost();
     clickHandler();
 });
-
-/* 
-
-Core Deliverables
-- As a user, I can:
-
-See the image received from the server, including its title, likes and comments when the page load
-  -- grab image card
-  -- render data to car
-
-Click on the heart icon to increase image likes, and still see them when I reload the page
-Add a comment (no persistance needed)
-
-    -- toggle the heart button with listeners
-    -- persist this stat to DB via patch
-
-
-
-
-
-
-
-
-*/
