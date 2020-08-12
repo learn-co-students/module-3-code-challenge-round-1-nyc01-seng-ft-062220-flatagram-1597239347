@@ -99,10 +99,5 @@ let imgData = {}
         
     };
 
-
-
-
-
-
     getImage()
 })
