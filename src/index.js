@@ -1,4 +1,35 @@
 // write your code here
+
+//  √ See the image received from the server, 
+//  √ including its title, likes and comments when the page load
+
+// √fetch all info from API , ****images/1*****
+// √grab all elements from DOM 
+// √populate innerHTML with info from DOM (.notation)
+// √itterate thru comments object, append to ***new comment li****
+
+
+
+// √ Click on the heart icon to increase image likes, 
+// √ and still see them when I reload the page
+
+// grab heart button 
+// add CLICK LISTENER TO BUTTON
+// PARSE INT likes from string to number
+
+
+
+// √ Add a comment (no persistance needed)
+
+
+
+
+
+
+
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
 
 
@@ -20,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
         imageTitle.innerHTML = image.title
         const pic = document.querySelector(".image")
         pic.src = image.image
-        imageLikes.innerHTML = image.likes + " Likes"
+        imageLikes.innerHTML = image.likes 
         imageComments.innerHTML = ""
 
         let comments = image.comments
@@ -44,15 +75,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Accepts": "application/json"},
             body: JSON.stringify({likes: newLikes})
         })
-    
-
-
-
-
-
     })
 
+    const form = document.querySelector(".comment-form")
 
+    form.addEventListener("submit", function(e){
+        e.preventDefault()
+        let input = document.querySelector(".comment-input")
+        // input.value 
+        let addedLi = document.createElement("li")
+        addedLi.innerHTML = input.value
+        imageComments.append(addedLi) 
+        form.reset()
+    })
+   
 
 
 
@@ -78,9 +114,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-//  See the image received from the server, 
-//  including its title, 
-//  likes and 
-//  comments when the page loads
 
 
