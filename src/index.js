@@ -1,13 +1,11 @@
 // write your code here
 document.addEventListener("DOMContentLoaded", function() {
 
-
 const getImage = (image) => {
     fetch("http://localhost:3000/images/1")
     .then(response => response.json())
     .then(image => parseImageToHtml(image))
 }
-
 
 const parseImageToHtml = (dogImage) => {
 
@@ -34,14 +32,21 @@ const parseImageToHtml = (dogImage) => {
 
 }
 
-
 const clickHandler = () => {
     document.addEventListener("click", function(e){
         const heartButton = document.querySelector(".like-button")
-        const likes = document.querySelector(".likes").innerText
         let counter = 0
-        if (e.target === heartButton) {
-            debugger
+        let increaseLikes
+        let likes = document.querySelector(".likes").innerHTML
+        if (e.target === heartButton) { 
+            counter = counter + 1
+            console.log(counter)
+            
+            likes.innerText=`
+            ${counter} likes
+            `
+
+            // debugger
         }
     })
 }
@@ -52,10 +57,6 @@ clickHandler()
 })
 
 
-
-
-
-
 /*
 See the image received from the server, including its title, likes and comments when the page loads
     -dom content loaded done
@@ -63,6 +64,13 @@ See the image received from the server, including its title, likes and comments 
     -HTML to show the title, likes, comments - done, wll come back to image
 Click on the heart icon to increase image likes, and still see them when I reload the page
     -event listener on heart, incrementing by 1 per click   
+        -create click event listener
+        -target the heart button
+        -upon click of the heart, increment the likes
+            access the likes
+            replace inner text with 
+
+
 Add a comment (no persistance needed)
     -event listener on submit button
     -post request
