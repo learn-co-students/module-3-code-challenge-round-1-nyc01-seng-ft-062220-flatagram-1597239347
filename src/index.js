@@ -4,13 +4,16 @@ const BASE_URL = "http://localhost:3000/",
       IMAGES_URL = "images/",
       COMMENTS_URL = "comments/";
 
+const FULL_HEART = "♥",
+      EMPTY_HEART = "♡";
+
 document.addEventListener("DOMContentLoaded", () => {
 
     // selecting the only 'image-card' on page to incorporate server-side data
 
 
-    const getImages = async () => {
-        url = BASE_URL + IMAGES_URL
+    const getPost = async () => {
+        url = BASE_URL + IMAGES_URL + 1
     
         let response = await fetch(url);
 
@@ -18,20 +21,42 @@ document.addEventListener("DOMContentLoaded", () => {
             throw new Error(`HTTP error! status: ${response.status}`);
         } else {
             let data = await response.json();
-            renderImage(data[0]);
+            renderPost(data);
+            parseComments(data.comments)
         }
     }
 
-    const renderImage = (imageObj) => {
-        const divCard = document.querySelector("div.image-card");
-        const imgOnCard = divCard.children[1];
-        imgOnCard.src = imageObj.image;
+    const parseComments = (postComments) => {
+        for (const post of postComments) {
+            renderComments(post);
+        }
+    }
+
+
+    const renderComments = (postCommentObj) => {
 
     }
-    getImages()
+
+    const renderPost = (postObj) => {
+        const divCard = document.querySelector("div.image-card");
+
+        // image properities
+        const imgOnCard = divCard.children[1];
+        imgOnCard.src = postObj.image;
+
+        // like properties
+        const divForLikesOnCard = divCard.children[2],
+                likesOnCard = divForLikesOnCard.children[0],
+                likesBtn = divForLikesOnCard.children[1];
+        likesOnCard.textContent = `${postObj.likes} likes`;
+
+        debugger;
+
+    }
+
+   
+    getPost()
 });
-
-
 
 /* 
 
