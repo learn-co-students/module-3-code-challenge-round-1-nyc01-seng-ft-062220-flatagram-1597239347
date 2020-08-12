@@ -1,7 +1,7 @@
 // write your code here
 
 BASE_URL = "http://localhost:3000/images/1"
-COMMENT_URL = "http://localhost:3000/comments"
+COMMENT_URL = "http://localhost:3000/comments/"
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -11,9 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(post1 => renderPost(post1))
     }
 
-    const returnPost = (post) => {
-        return post
-    }
+    // const returnPost = (post) => {
+    //     return post
+    // }
 
     const renderPost = (post) => {
         document.querySelector("div.image-card").dataset.postId = post.id
@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll("ul.comments > li").forEach(li => li.remove())
         for (let i = 0; i < post.comments.length; i++) {
             const newLi = document.createElement("li")
+            newLi.dataset.commentId = post.comments[i].id
             newLi.innerText = post.comments[i].content
             document.querySelector("ul.comments").append(newLi)
         }
@@ -50,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const renderComment = (commentForm) => {
         const newLi = document.createElement("li")
+        newLi.dataset.commentId = document.querySelectorAll("ul.comments > li").length
         newLi.innerText = commentForm.querySelector("input.comment-input").value
         document.querySelector("ul.comments").append(newLi)
 
@@ -70,6 +72,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         fetch(COMMENT_URL, configObj)
+    }
+
+    const deleteComment = (comment) => {
+
+        configObj = {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        }
+
+        fetch(COMMENT_URL + comment.dataset.commentId, configObj)
+
     }
 
     const clickHandler = () => {
