@@ -14,8 +14,8 @@ DONE- Get comments (imageId, content)
 
 
 DONE- Add event listener to heart icon (like button)
-    - Patch request to change image likes in DB
-    - render pessamistically to DOM
+    DOM- Patch request to change image likes in DB
+    DOM - render pessamistically to DOM
 
 - Event listener on submit button that adds comment
     - DOES NOT NEED TO PERSIST IN DB
@@ -24,18 +24,19 @@ DONE- Add event listener to heart icon (like button)
 
 document.addEventListener("DOMContentLoaded",function(){
     console.log("dom loaded!")
-    const imageURL = "http://localhost:3000/images/1"
+    const imageUrl = "http://localhost:3000/images/1"
 
     const imgTag = document.querySelector(".image")
     const titleHeader = document.querySelector(".title")
     const likesSpan = document.querySelector(".likes")
     const commentsUl = document.querySelector(".comments")
+    
     const likeButton = document.querySelector(".like-button")
-
+    const likeSpan = document.querySelector(".likes")
     //I know that I could've gotten commetns out of image obj
 
     function getImage() {
-        fetch(imageURL)
+        fetch(imageUrl)
         .then(response => response.json())
         .then(imageObj => {
             renderImage(imageObj)
@@ -45,11 +46,11 @@ document.addEventListener("DOMContentLoaded",function(){
     }
 
     function renderImage(imageObj) {
-        const imageURL = imageObj.image
+        const imageUrlAttr = imageObj.image
         const imageTitle = imageObj.title
         const imageLikes = imageObj.likes
 
-        imgTag.src = imageURL
+        imgTag.src = imageUrlAttr
         titleHeader.textContent = imageTitle
         likesSpan.textContent = `${imageLikes} Likes`
 
@@ -68,7 +69,24 @@ document.addEventListener("DOMContentLoaded",function(){
 
     document.addEventListener("click", function(e){
         if(e.target.matches(".like-button")){
-            const currentLikes = 
+            let currentLikes = parseInt(likesSpan.textContent.split(" ")[0])
+            newLikeCount = currentLikes + 1
+            
+            configObj = {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                  },
+                body: JSON.stringify({likes: newLikeCount})
+            }
+            
+            fetch(imageUrl, configObj)
+            .then(response => response.json())
+            .then(updatedObj => { 
+                updatedLikeCount = updatedObj.likes
+                likesSpan.textContent = `${updatedLikeCount} Likes` })
+
         }
         
 
