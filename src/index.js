@@ -48,7 +48,23 @@ document.addEventListener("DOMContentLoaded", e=>{
     let button = document.querySelector(".like-button")
     button.addEventListener("click", e=>{
 
+        let span = document.querySelector(".likes")
+        let likesNumber = parseInt(span.innerText.split(" ")[0])
+        let newLikes = likesNumber+1
         
+        let options = {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json",
+                "accept": "application/json"
+            },
+            body: JSON.stringify({likes: newLikes})
+        }
+        fetch(page_link, options)
+        .then(resp =>{
+            span.innerText = `${newLikes} likes`
+        })
+
     })
 
 
