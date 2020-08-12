@@ -2,22 +2,41 @@
 
 
 document.addEventListener("DOMContentLoaded",function(){
-    const commentUL = document.querySelector("ul.comments")
-    const image = document.querySelector("img.image")
-    const likes = document.querySelector("span.likes")
-    const imagesURL = "http://localhost:3000/images/"
-    const commentsURL = "http://localhost:3000/comments/"
+    const commentUL = document.querySelector("ul.comments"),
+    likes = document.querySelector("span.likes"),
+    image = document.querySelector("img.image"),
+    card = document.querySelector("div.image-card"),
+    imagesURL = "http://localhost:3000/images/",
+    commentsURL = "http://localhost:3000/comments/";
+
     
 
     pageLoad()
 
+    card.addEventListener("click",function(e){
+        
+
+        if(e.target.className === "like-button" ){
+            const imageID = e.target.parentNode.parentNode.dataset.id,
+            likeNumber = parseInt(likes.textContent.split(" ")[0]) +1;
+            patchPage(imageID,likeNumber)
+            
+        }
+        //end of the card-container click AddEventListener
+    })
+
+    card.addEventListener("submit",function(e){
+
+    // the end of the submit addeventlistener to the card
+    })
 
 
 
-    function pageLoad(e){
+
+
+    function pageLoad(){
         commentUL.innerHTML = ""
         image.src = ""
-        console.log("i'm inside the pageLoad function")
         loadImage()
         loadComments()
 
@@ -25,7 +44,11 @@ document.addEventListener("DOMContentLoaded",function(){
             fetch(imagesURL)
             .then(function(response){return response.json()})
             .then(function(images){
+                const title = card.querySelector("h2.title")
                image.src = images[0].image
+               likes.textContent = `${images[0].likes} likes`
+               card.dataset.id = images[0].id
+               title.textContent = images[0].title
             })
         }
 
@@ -39,12 +62,30 @@ document.addEventListener("DOMContentLoaded",function(){
                     commentUL.appendChild(li)
 
                 })
-                console.log('i just loaded the comments')
             })
         }
 
     }
     
+    function patchPage(id, likeNumber){
+        const body = {id: id, likes: likeNumber},
+        options = {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+            },
+            body: JSON.stringify(body)
+
+        }
+        fetch(imagesURL+id,options)
+        .then(function(response){return response.json()})
+        .then(function(image){
+            likes.textContent = `${image.likes} likes`
+        })
+        
+
+    }
     
 
 
