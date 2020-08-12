@@ -17,8 +17,9 @@ DONE- Add event listener to heart icon (like button)
     DOM- Patch request to change image likes in DB
     DOM - render pessamistically to DOM
 
-- Event listener on submit button that adds comment
-    - DOES NOT NEED TO PERSIST IN DB
+DONE- Event listener on submit button that adds comment
+    DONE- DOES NOT NEED TO PERSIST IN DB
+    DONE - clear form value when submited
 
 */
 
@@ -66,7 +67,7 @@ document.addEventListener("DOMContentLoaded",function(){
         })
     }
 
-
+    //come back and put this in a click handler + call at bottom of script
     document.addEventListener("click", function(e){
         if(e.target.matches(".like-button")){
             let currentLikes = parseInt(likesSpan.textContent.split(" ")[0])
@@ -88,10 +89,21 @@ document.addEventListener("DOMContentLoaded",function(){
                 likesSpan.textContent = `${updatedLikeCount} Likes` })
 
         }
-        
+    })
 
+
+    document.addEventListener("submit", function(e){
+        e.preventDefault()
+
+        let commToAdd = e.target.comment.value
+        newCommentLi = document.createElement("li")
+        newCommentLi.textContent = commToAdd
+
+        commentsUl.append(newCommentLi)
+        e.target.reset()
 
     })
+
 
 
     getImage()
