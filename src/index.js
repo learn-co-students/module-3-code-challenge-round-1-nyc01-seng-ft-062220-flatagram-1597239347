@@ -28,7 +28,6 @@ document.addEventListener(`DOMContentLoaded`, e => {
         const likes = imageContainer.querySelector(`span`)
         const likesSection = imageContainer.querySelector(`.likes-section`)
 
-        console.log(!imageContainer.querySelector(`#down-vote`))
         if (!imageContainer.querySelector(`#down-vote`)) {
             const downVote = document.createElement(`button`)
 
@@ -43,6 +42,7 @@ document.addEventListener(`DOMContentLoaded`, e => {
         title.innerText = imageData.title
         image.src = imageData.image
         likes.innerText = `${imageData.likes} likes`
+        console.log(imageData.comments)
         if (imageData.comments) imageData.comments.forEach(comment => renderComment(comment.content))
     }
     const renderComment = comment => {
@@ -105,8 +105,24 @@ document.addEventListener(`DOMContentLoaded`, e => {
         if (e.target.matches(`.comment-form`)) {
             const form = e.target
             const comment = form.comment.value
-            renderComment(comment)
-            form.reset()
+            const imageId = parseInt(form.parentNode.parentNode.dataset.id)
+
+            fetch(baseUrl + `/comments`, {
+                method: `POST`,
+                headers: {
+                    "content-type": `application/json`,
+                    accept: `application/json`
+                },
+                body: JSON.stringify({
+                    imageId: imageId,
+                    content: comment
+                })
+            })
+            .then(r => r.json())
+            .then(commentObject => {
+                renderComment(commentObject.content)
+                form.reset()
+            }) 
         }
     })
 })
