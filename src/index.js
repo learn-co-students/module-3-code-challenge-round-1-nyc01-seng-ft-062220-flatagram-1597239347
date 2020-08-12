@@ -1,11 +1,10 @@
 document.addEventListener("DOMContentLoaded", init)
 const BASE_URL = "http://localhost:3000/images/1"
-const COMMENT_URL = "http://localhost:3000/comments"
+const COMMENT_URL = "http://localhost:3000/comments/"
 
 
 function init() {
     getFlataGram();
-    getComments();
 };
 
 const renderFlataGram = (gram) => {
@@ -17,37 +16,50 @@ const renderFlataGram = (gram) => {
     gramTitle.innerHTML = `${gram.title}`
     gramImage.src = `${gram.image}`
     gramLikes.innerHTML = `${gram.likes} likes`
-    
-    likeHandler(gram)
+    clickHandler(gram)
+
+    const comments = gram.comments
+    const ul = document.querySelector("ul.comments")
+    gramCommentHandler(ul, comments)
 };
 
-const likeHandler = (gram) => {
+const clickHandler = (gram) => {
     document.addEventListener("click", e => {
         if (e.target.matches(".like-button")){
             gram.likes += 1
-           
-            patchFlataGram(gram)
+            newGram = {
+                "title": gram.title,
+                "likes": gram.likes,
+                "image": gram.images
+            }
+            patchFlataGram(newGram)
             .then(resp => {
                 getFlataGram()
             })
-        }
+        // } else if (e.target.matches(".delete_button")){
+        //     commentId = Working on Delete
+            
+        }   
     })
 };
 
-const gramCommentHandler = (comments) => {
-    const commnentsUl = document.querySelector("ul.comments")
-    commnentsUl.innerHTML = ""
+const gramCommentHandler = (ul, comments) => {
+    ul.innerHTML = ""
     for (let comment of comments){
         const commentLi = document.createElement("li")
         commentLi.innerText = `${comment.content}`
-        commnentsUl.append(commentLi)
+        commentLi.dataset.commentId = comment.id
+        // const deleteButton = document.createElement("button")
+        // deleteButton.innerHTML = "Delete"
+        // deleteButton.className = "delete_button"
+        ul.append(commentLi)
     };
 };
 
 const submitHandler = () => {
-    const imageCard = document.querySelector(".image-card")
-    imageId = imageCard.dataset.imageId
     document.addEventListener("submit", e => {
+        const imageCard = document.querySelector(".image-card")
+        const imageId = parseInt(imageCard.dataset.imageId)
         e.preventDefault()
         const form = e.target
         const content = form.comment.value
@@ -58,7 +70,7 @@ const submitHandler = () => {
         postComment(contentObj)
         .then(resp => {
             form.reset()
-            getComments()
+            getFlataGram()
         })
     });
 };
@@ -70,12 +82,6 @@ const getFlataGram = (contentObj) => {
     fetch(BASE_URL)
     .then(resp => resp.json())
     .then(renderFlataGram)
-};
-
-const getComments = () => {
-    fetch(COMMENT_URL)
-    .then(resp => resp.json())
-    .then(gramCommentHandler)
 };
 
 const patchFlataGram = (newGram) => {
@@ -98,6 +104,5 @@ const postComment = (contentObj) => {
         },
         body: JSON.stringify(contentObj)
     };
-
     return fetch(COMMENT_URL, options)
 }
