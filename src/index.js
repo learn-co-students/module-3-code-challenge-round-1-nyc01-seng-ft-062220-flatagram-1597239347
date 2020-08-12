@@ -1,12 +1,13 @@
 // write your code here
 //DONE - fetch image and title
 //DONE - render image
-//render title
-//render likes and comments
-//build heart like like function
+//DONE - render title
+//DONE - render likes
+// render comments
+//DONE - build heart like like function
 //add comment.
 const urlImages = "http://localhost:3000/images/"
-const urlLikes = "http://localhost:3000/likes/"
+const urlComments = "http://localhost:3000/comments/"
 
 document.addEventListener("DOMContentLoaded", e=> {
 
@@ -26,14 +27,46 @@ document.addEventListener("DOMContentLoaded", e=> {
         <div class="likes-section">
         <span class="likes">${object.likes} Likes</span>    
         <button class="like-button">♥</button>
+        </div>
+        <ul class="comments"></ul>
+        <form class="comment-form">
+          <input
+            class="comment-input"
+            type="text"
+            name="comment"
+            placeholder="Add a comment..."
+          />
+          <button class="comment-button" type="submit">Post</button>
+        </form>
+      </div>
     `
 
     //render heart button here and append to object div
     containerDiv.innerHTML = ""
     containerDiv.append(objectDiv)
+    fetchComments()
+  }
+
+  const fetchComments = () => {
+    fetch(urlComments)
+      .then(res => res.json())
+      .then(data => data.forEach(comment => renderComments(comment)))
+  }
+
+  const renderComments = (comment, containerDiv, ObjectId) => {
+
+    const containerUl = document.querySelector(".comments")
+    const commentLi = document.createElement("li")
+    commentLi.textContent = comment.content
+    containerUl.append(commentLi)
 
   }
 
+  const submitHandler = () => {
+    document.addEventListener("submit")
+
+
+  }
 
   const clickHandler = () => {
     document.addEventListener("click", e => {
@@ -75,6 +108,7 @@ document.addEventListener("DOMContentLoaded", e=> {
 
 
   fetchImage()
+  fetchComments()
   clickHandler()
 
 
