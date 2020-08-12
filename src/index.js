@@ -1,1 +1,111 @@
-// write your code here
+
+
+
+// CORE Deliverables
+
+// See the image received from the server, including its title, likes and comments when the page loads
+
+    // √1. build url for images with embedded likes
+    // √2. fetch images
+    // √3. render the images
+
+// Click on the heart icon to increase image likes, and still see them when I reload the page
+
+    // √1. find the heart icon
+    // 2. add to the heart icont total count
+
+// Add a comment (no persistance needed)
+
+    // 1. find the form content
+    // 2. read the form content and update html
+
+
+const COMMENT_URL = "http://localhost:3000/comments"
+const IMG_URL = "http://localhost:3000/images/"
+const IMG_W_CMMNTS = "http://localhost:3000/images/1?_embed=comments"
+
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("LOADED")
+
+    getImage=() => {
+        fetch(IMG_W_CMMNTS)
+            .then(response => response.json())
+            .then(image => {renderImage(image)})
+    }
+
+    renderImage=(image)=>{
+        let imgDivCard = document.querySelector('.image-card'),
+            imgDivCont = document.querySelector('.image-container');
+     
+
+              imgDivCard.innerHTML = ''  
+
+
+
+        imgDivCard.innerHTML = `
+            <h2 class="title">${image.title}</h2>
+            <img class='image-container' src="${image.image}" />
+                <div class="likes-section">
+                    <span class="likes">0 likes</span>
+                    <button class="like-button">♥</button>
+                </div>
+            <ul class="comments">
+            </ul>
+            <form class="comment-form">
+            <input
+              class="comment-input"
+              type="text"
+              name="comment"
+              placeholder="Add a comment..."
+            />
+            <button class="comment-button" type="submit">Post</button>
+          </form>`
+
+        imgDivCont.appendChild(imgDivCard);
+
+        let imgComments = document.querySelector('.comments')
+
+        for (const comment of image.comments) {
+            let commentLi = document.createElement('li');
+
+                commentLi.textContent = comment.content
+
+                imgComments.appendChild(commentLi)
+        }
+
+    }
+
+
+    likesHandler=()=>{
+        document.addEventListener('click', e => {
+            let likeBtn = document.querySelector(".like-button")
+            if (e.target.className === "like-button") {
+                // console.log("yay")
+            
+                let likesTarget = likeBtn.parentNode.querySelector(".likes").textContent.split(' ')
+
+                // console.log(likesTarget)
+
+                let updatedLikes = parseInt(likesTarget[0]++)
+                console.log(updatedLikes)
+            }
+        })
+    }
+
+    
+    commentHandler=()=> {
+        document.addEventListener("submit", e => {
+            e.preventDefault()
+            let commentText = document.querySelector('.comment-form')
+                console.log(commentText.innerHTML.innerTEXT)
+
+        })
+    }
+
+
+
+
+    getImage();
+    likesHandler();
+    commentHandler();
+})
