@@ -35,9 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(post1 => renderPost(post1))
     }
 
-    // const returnPost = (post) => {
-    //     return post
-    // }
 
     const renderPost = (post) => {
         document.querySelector("div.image-card").dataset.postId = post.id
@@ -162,20 +159,9 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
-    // const submitHandler = () => {
-    //     document.addEventListener("submit", (e) => {
-    //         form = e.target
-    //         if(form.matches("button.comment-button")) {
-    //             e.preventDefault
-    //             console.log("form")
-    //         }
-    //     })
-    // }
-
-    // const newPost = returnPost(getPost())
+ 
     getPost()
     clickHandler()
     addDownVote()
-    // setCommentIdCounter()
-    // submitHandler()
+
 })

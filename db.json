@@ -32,6 +32,16 @@
       "id": 11,
       "imageId": 1,
       "content": "aege"
+    },
+    {
+      "id": 12,
+      "imageId": 1,
+      "content": "Crazy COOL!"
+    },
+    {
+      "id": 13,
+      "imageId": 1,
+      "content": "This was a fun code challenge"
     }
   ]
 }
