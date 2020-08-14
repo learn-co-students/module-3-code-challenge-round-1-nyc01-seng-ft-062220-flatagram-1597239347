@@ -1,56 +1,49 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const getImage = () => {
-    fetch('http://localhost:3000/images')
-      .then(response => response.json())
-      .then(imgObj => imgParse(imgObj))
-  }
 
-
-
-
-
-
-
-
-  const imgParse = (img) => {
-    img.forEach(img => renderToHtml(img))
-  }
-
-  const renderToHtml = (img) => {
-    let title = document.querySelector('.title')
-    let imgTitle = img.title
-    title.append(imgTitle)
-
-    let imgUrl = img.image
-    let image = document.querySelector(".image").src = imgUrl
-  }
-
-  const clickHandler = () => {
-    document.addEventListener('click', function(e) {
+  const clickHandler = (likes) => {
+    document.addEventListener("click", (e) => {
       const likeBttn = document.querySelector('.like-button').innerHTML
-      if (e.target.textContent === '♥'){
+      if (e.target.textContent === '♥') {
+        likes = parseInt(document.querySelector(".likes").textContent)
 
-        var x = 0;
-        var span = (document.querySelector('span'));
-        span.textContent = x++;
-        console.log(span)
-      }else if (e.target.type === 'submit'){
-        e.preventDefault()
 
+        likes++
+
+        document.querySelector(".likes").textContent = likes
+
+
+        // debugger
 
 
       }
-
-
-
-
     })
-
-
-
   }
 
+  const getImage = () => {
+    fetch('http://localhost:3000/images/1')
+      .then(response => response.json())
+      .then(imgObj => renderToHtml(imgObj))
+  }
+  const renderToHtml = (imageObj) => {
+    const title = document.querySelector('.title')
+    const imgTitle = imageObj.title
+    title.append(imgTitle)
+
+    const imgUrl = imageObj.image
+    const image = document.querySelector(".image").src = imgUrl
+
+
+    const likes = parseInt(document.querySelector(".likes").textContent)
+
+    imageObj.comments.forEach(comment => {
+      const comments = document.querySelector("body > div > div > ul")
+      const listComments = document.createElement("li")
+      listComments.innerText = comment.content
+      comments.append(listComments)
+    })
+
+  }
 
 
 
@@ -63,6 +56,14 @@ document.addEventListener("DOMContentLoaded", () => {
   getImage()
 })
 
+
+
+
+
+
+
+
+
 // let title = document.querySelector('.title')
 
 // img.forEach(img => console.log(img))
@@ -71,10 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // value = isNaN(value) ? 0 : value;
 // value++;
 // document.querySelector('.likes').innerText.value = value;
-
-
-
-
 
 /*
 
